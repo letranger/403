@@ -13,6 +13,10 @@ fe80::1%lo0	localhost
 127.0.0.1 messenger.com
 127.0.0.1	ecloud.tnfsh.tn.edu.tw
 127.0.0.1	mail.tnfsh.tn.edu.tw
+127.0.0.1	www.facebook.com
+127.0.0.1	m.facebook.com
+127.0.0.1	facebook.com
+127.0.0.1	messenger.com
 127.0.0.1	www.pornhub.com
 127.0.0.1	shellshock.io
 127.0.0.1	agar.io
