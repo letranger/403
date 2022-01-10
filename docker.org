@@ -1,0 +1,26 @@
+#+TITLE: Docker
+
+* Docker commands
+** List comtainer
+list running containers
+#+begin_src shell -r -n :results output :exports both
+docker container ls
+#+end_src
+** commit
+create a new image _nwImageName_ from that container
+#+begin_src shell -r -n :results output :exports both
+docker commit CONTAINER_ID newImageName
+#+end_src
+** run
+star a container from image
+#+begin_src shell -r -n :results output :exports both
+docker run newImageName
+#+end_src
+** duplicate
+duplicate running container nginix:latest to container _newContainer_ containing image _newImage_
+#+begin_src shell -r -n :results output :exports both
+docker run --name newContainer --volumes-from newImage -d -p 3000:80 nginix:latest
+#+end_src
+* References
+- [[https://stackoverflow.com/questions/49193307/how-to-duplicate-running-docker-container][How to duplicate running docker container]]
+- [[https://www.youtube.com/watch?v=mPquwpxyUQU][Docker 10分钟快速入门]]

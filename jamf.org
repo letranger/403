@@ -1,0 +1,7 @@
+#+TITLE: Jamf
+
+* Printer
+- [[https://docs.jamf.com/10.24.1/jamf-pro/administrator-guide/Administering_Printers.html][ Administering Printers]]
+- [[https://docs.jamf.com/10.24.1/jamf-pro/administrator-guide/Managing_Printers.html][ Managing Printers]]
+- [[https://themacadmin.com/2019/02/27/adding-printers-to-jamf-pro-via-web-app/][Adding Printers to Jamf Pro via Web App]]
+- [[https://oit.ncsu.edu/help-support/apple/jamf-pro/jamf-pro-add-printer-in-web-interface/][Jamf Pro – Add Printer in Web Interface]]
