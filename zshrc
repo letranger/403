@@ -1,4 +1,4 @@
-export PATH=/usr/local/bin:/opt/anaconda3/bin:$PATH
+export PATH=/Applications/CMake.app/Contents/bin:/usr/local/bin:/opt/anaconda3/bin:$PATH
 export ZSH="/Users/student/.oh-my-zsh"
 export TERM="xterm-256color"
 ZSH_THEME="powerlevel10k/powerlevel10k"
