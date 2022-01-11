@@ -1,3 +1,9 @@
+export PATH=/usr/local/bin:/opt/anaconda3/bin:$PATH
+export ZSH="/Users/student/.oh-my-zsh"
+export TERM="xterm-256color"
+ZSH_THEME="powerlevel10k/powerlevel10k"
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -13,8 +19,3 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-export PATH=/usr/local/bin:$PATH
-export PATH="/opt/anaconda3/bin":$PATH
-export TERM="xterm-256color"
-ZSH_THEME="powerlevel10k/powerlevel10k"
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
