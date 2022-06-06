@@ -1,0 +1,9 @@
+#+title: 403教室雜事
+
+- [[file:dbCluster.org][DataBase Cluseter]]
+- [[file:docker.org][Docker]]
+- [[file:jamf.org][Jamf]]
+
+- [[file:dbCluster.html][DataBase Cluseter]]
+- [[file:docker.html][Docker]]
+- [[file:jamf.html][Jamf]]

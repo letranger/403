@@ -1,5 +1,100 @@
 #+TITLE: Jamf
 
+* 無法enroll client
+** 出現錯誤訊息
+#+begin_verse
+An error occurred while enrolling computer: The jamf binary could not connect to the JSS because the web certificate is not trusted.
+#+end_verse
+參考: [[https://community.jamf.com/t5/jamf-pro/jamf-binary-could-not-connect-to-the-jss-because-the-web/m-p/117511][JAMF binary could not connect to the JSS because the web certificate is not trusted?]]
+** Solution
+1. Try running the following command:
+   新版的OSX要跑這個.....
+   #+begin_src shell -r -n :results output :exports both
+   sudo jamf trustJSS
+   #+end_src
+2. 取消SSL certificate (unchecked everything in Security in the JSS)
+   - Open Jamf-Pro web
+   - Click Computer Management.
+   - In the "Computer Management - Management Framework" section, click Security.
+   - Deselect the Enable SSL certificate verification checkbox.
+3. 更新The tomcat cert
+4. 檢查client時間(時區)設定
+5. Update Jamf JSS
+6. Client換用Firefox, 不要用Safari
+7. setting it to "Always except during enrollment" which is LESS restrictive than "Always"
+8. rebuilt the SSL certificate
+   1) From JSS Settings > Apache Tomcat Settings:
+   2) Click Edit.
+   3) Check "Change the SSL Certificate for HTTPS" and click Next.
+   4) Check "Generate a certificate from the JSS's built-in CA and click Next.
+   5) Click Done.
+   6) Log onto Jamf Pro server and restart Tomcat service.
+9. Check time and date
+
+* Downlaod New macOS
+參考 [[https://osxdaily.com/2020/04/13/how-download-full-macos-installer-terminal/][How to Download Full MacOS Installers from Command Line]]
+** How to Download Full MacOS Installer from Mac Command Line
+1. Launch the Terminal application as usual, then use the following command syntax, replacing “**.**.*” with the installer version you wish to download:
+   #+begin_src shell -r -n :results output :exports both
+   softwareupdate --fetch-full-installer --full-installer-version **.**.*
+   #+end_src
+2. Hit return to start downloading the full installer application of that version of MacOS
+   例如:下載Monterey
+   #+begin_src shell -r -n :results output :exports both
+   softwareupdate --fetch-full-installer --full-installer-version 12.4
+   #+end_src
+*** 列出可下載macOS Installers
+#+begin_src shell -r -n :results output :exports both
+softwareupdate --list-full-installers
+#+end_src
+
+#+RESULTS:
+#+begin_example
+Finding available software
+Software Update found the following full installers:
+,* Title: macOS Monterey, Version: 12.4, Size: 12103360613K, Build: 21F79
+,* Title: macOS Monterey, Version: 12.3.1, Size: 12225260436K, Build: 21E258
+,* Title: macOS Monterey, Version: 12.3, Size: 12222979494K, Build: 21E230
+,* Title: macOS Monterey, Version: 12.2.1, Size: 12155426708K, Build: 21D62
+,* Title: macOS Big Sur, Version: 11.6.6, Size: 12412173576K, Build: 20G624
+,* Title: macOS Big Sur, Version: 11.6.5, Size: 12412317772K, Build: 20G527
+,* Title: macOS Big Sur, Version: 11.6.4, Size: 12439328867K, Build: 20G417
+,* Title: macOS Big Sur, Version: 11.6.3, Size: 12435122667K, Build: 20G415
+,* Title: macOS Big Sur, Version: 11.6.2, Size: 12433351292K, Build: 20G314
+,* Title: macOS Big Sur, Version: 11.6.1, Size: 12428472512K, Build: 20G224
+,* Title: macOS Big Sur, Version: 11.5.2, Size: 12440916552K, Build: 20G95
+,* Title: macOS Catalina, Version: 10.15.7, Size: 8248985973K, Build: 19H15
+,* Title: macOS Catalina, Version: 10.15.7, Size: 8248854894K, Build: 19H2
+,* Title: macOS Catalina, Version: 10.15.6, Size: 8248781171K, Build: 19G2021
+#+end_example
+
+* Upgrade to Monterey via Jamf Pro
+參考: [[https://community.jamf.com/t5/jamf-pro/upgrade-all-os-before-monterey/td-p/266870][Upgrade All OS before Monterey]]
+** remote command
+The simplest way is using remote command to update/upgrade.
+1. Go to a smart/static group > View > Action >
+2. Send Remote Commands > Update OS version and built-in apps >
+3. choose the version and Install Action.
+** use softwareupdate command
+** third-party app
+erase
+
+* Mount SMB file
+#+begin_src shell -r -n :results output :exports both
+mount -t smbfs //student:tnfsh403@192.168.16.200/caspershare ~/Desktop
+#+end_src
+
+* Change Host Name
+#+begin_src shell -r -n :results output :exports both
+sudo scutil --set HostName XX
+sudo scutil --set LocalHostName XX
+sudo scutil --set ComputerName XX
+#+end_src
+* Setup DNS Server
+#+begin_src shell -r -n :results output :exports both
+sudo networksetup -setdnsservers Ethernet 192.168.7.7 8.8.8.8
+#+end_src
+
 * Printer
 - [[https://docs.jamf.com/10.24.1/jamf-pro/administrator-guide/Administering_Printers.html][ Administering Printers]]
 - [[https://docs.jamf.com/10.24.1/jamf-pro/administrator-guide/Managing_Printers.html][ Managing Printers]]
