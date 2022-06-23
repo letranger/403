@@ -1,6 +1,11 @@
 #+TITLE: MariaDB Galera Cluster
-#+include: ../web.org
-#+OPTIONS: ^:nil
+
+# -*- org-export-babel-evaluate: nil -*-'
+#+TAGS: 403, TNFSH, Mariadb
+#+TAGS: Intel, AI4Y
+#+OPTIONS: toc:2 ^:nil num:5
+#+PROPERTY: header-args :eval never-export
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../css/white.css" />
 
 * Install Ubuntu on Mac
 1. Download Ubuntu ISO
@@ -61,7 +66,7 @@ wsrep_provider=/usr/lib/galera/libgalera_smm.so
 # Galera Cluster Configuration
 wsrep_provider_options="gcache.size=256M; gcache.page_size=128M"
 wsrep_cluster_name="TNFSH_DB_Cluster"
-wsrep_cluster_address="gcomm://192.168.16.41, 192.168.16.42, 192.168.16.43, 192.168.16.44, 192.168.16.45, 192.168.16.46, 192.168.16.47, 192.168.16.48, 192.168.16.49"
+wsrep_cluster_address="gcomm://192.168.16.41, 192.168.16.42, 192.168.16.43, 192.168.16.44, 192.168.16.45, 192.168.16.46, 192.168.16.47, 192.168.16.48, 192.168.16.49, 192.168.16.50, 192.168.16.51, 192.168.16.52, 192.168.16.53, 192.168.16.54, 192.168.16.55, 192.168.16.56, 192.168.16.57, 192.168.16.58, 192.168.16.59"
 
 # Galera Synchronization Configuration
 wsrep_sst_method=rsync
@@ -163,6 +168,10 @@ SELECT * FROM students;
 INSERT INTO students VALUES (4,"顏小進","Letranger");
    #+end_src
    Verify on other nodes
+** autostart mariadb
+#+begin_src shell -r -n :results output :exports both
+sudo update-rc.d mariadb defaults
+#+end_src
 * MariaDB Galera問題處理
 - [[https://www.cnblogs.com/nulige/articles/8470001.html][問題處理 ]]太好了
 - [[https://mariadb.com/kb/en/getting-started-with-mariadb-galera-cluster/][Getting Started with MariaDB Galera Cluster]]
@@ -641,6 +650,31 @@ sudo systemctl start node_exporter
 - [[https://www.webteach.tw/?p=3347][[ Phpmyadmin ] – 透過 Phpmyadmin 一次管理多台遠端資料庫]]
 - [[https://lucas-yang.vercel.app/post/local-phpmyadmin-connect-to-remote-mysql/][使用本地 phpMyAdmin 連線到遠端 MySQL 資料庫]]
 - [[https://www.itread01.com/content/1542887646.html][配置phpmyadmin連線遠端 MySQL資料庫]]
+
+* 403 server List
+- 192.168.16.60: Prometheus
+- 192.168.16.61: Galera mamanger
+- 192.168.16.40: haproxy server
+- 192.168.16.41: db01
+- 192.168.16.42: db02
+- 192.168.16.43: db03
+- 192.168.16.44: db04
+- 192.168.16.45: db05
+- 192.168.16.46: db06
+- 192.168.16.47: db07
+- 192.168.16.48: db08
+- 192.168.16.49: db09
+- 192.168.16.50: db10
+- 192.168.16.51: db11
+- 192.168.16.52: db12
+- 192.168.16.53: db13
+- 192.168.16.54: db14
+- 192.168.16.55: db15
+- 192.168.16.56: db16
+- 192.168.16.57: db17
+- 192.168.16.58: db18
+- 192.168.16.59: db19
+
 * Nginx v.s. Moodle
 ** 移除套件
 #+begin_src shell -r :results output :exports both

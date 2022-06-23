@@ -2,8 +2,6 @@ export PATH=/Applications/CMake.app/Contents/bin:/usr/local/bin:/opt/anaconda3/b
 export ZSH="/Users/student/.oh-my-zsh"
 export TERM="xterm-256color"
 ZSH_THEME="powerlevel10k/powerlevel10k"
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!

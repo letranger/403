@@ -1,4 +1,11 @@
 #+TITLE: Jamf
+#+OPTIONS: toc:nil
+# -*- org-export-babel-evaluate: nil -*-'
+#+TAGS: 403, TNFSH
+#+TAGS: Intel, AI4Y
+#+OPTIONS: toc:2 ^:nil num:5
+#+PROPERTY: header-args :eval never-export
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../css/white.css" />
 
 * 無法enroll client
 ** 出現錯誤訊息
@@ -7,30 +14,77 @@ An error occurred while enrolling computer: The jamf binary could not connect to
 #+end_verse
 參考: [[https://community.jamf.com/t5/jamf-pro/jamf-binary-could-not-connect-to-the-jss-because-the-web/m-p/117511][JAMF binary could not connect to the JSS because the web certificate is not trusted?]]
 ** Solution
-1. Try running the following command:
+1. 先login Jamf server，再login enrollment page下載quickadd.pkg
+   - https://bee.tnfsh.tn.edu.tw:8443 (trust this web)
+   - https://bee.tnfsh.tn.edu.tw:8443/enroll
+2. Try running the following command:
    新版的OSX要跑這個.....
    #+begin_src shell -r -n :results output :exports both
    sudo jamf trustJSS
    #+end_src
-2. 取消SSL certificate (unchecked everything in Security in the JSS)
+3. 取消SSL certificate (unchecked everything in Security in the JSS)
    - Open Jamf-Pro web
    - Click Computer Management.
    - In the "Computer Management - Management Framework" section, click Security.
    - Deselect the Enable SSL certificate verification checkbox.
-3. 更新The tomcat cert
-4. 檢查client時間(時區)設定
-5. Update Jamf JSS
-6. Client換用Firefox, 不要用Safari
-7. setting it to "Always except during enrollment" which is LESS restrictive than "Always"
-8. rebuilt the SSL certificate
+4. 更新The tomcat cert
+5. 檢查client時間(時區)設定
+6. Update Jamf JSS
+7. Client換用Firefox, 不要用Safari
+8. setting it to "Always except during enrollment" which is LESS restrictive than "Always"
+9. rebuilt the SSL certificate
    1) From JSS Settings > Apache Tomcat Settings:
    2) Click Edit.
    3) Check "Change the SSL Certificate for HTTPS" and click Next.
    4) Check "Generate a certificate from the JSS's built-in CA and click Next.
    5) Click Done.
    6) Log onto Jamf Pro server and restart Tomcat service.
-9. Check time and date
+10. Check time and date
+* 無法下載CA Certificate(s) :ATTACH:
+:PROPERTIES:
+:ID:       63123297-0c80-4967-a299-8ed8cf5734d2
+:END:
+** 錯誤畫面(Attach) :ATTACH:
+[[attachment:_20220621_21505020220621_1656242022-06-21_16-56-18.png]]
+*** 錯誤畫面(img)
+#+CAPTION: Caption
+#+LABEL:fig:Labl
+#+name: fig:Name
+#+ATTR_LATEX: :width 300
+#+ATTR_ORG: :width 500
+#+ATTR_HTML: :width 500
+[[file:images/20220621_1656242022-06-21_16-56-18.png]]
+** 錯誤訊息(verse)
+#+begin_verse
+(base) letranger@Mini11 ~ % sudo jamf trustjss
+Password:
+Downloading required CA Certificate(s)...
 
+There was an error.
+
+     Unable to add the certificates to the System keychain...
+#+end_verse
+** 錯誤訊息(quote)
+#+begin_quote
+(base) letranger@Mini11 ~ % sudo jamf trustjss
+Password:
+Downloading required CA Certificate(s)...
+
+There was an error.
+
+     Unable to add the certificates to the System keychain...
+
+#+end_quote
+** Solutions
+- [[http://i-services.info/wordpress/?p=13453][【Jamf Pro】如何進行APNs相關憑證更新]]
+- [[https://docs.jamf.com/10.39.0/jamf-pro/documentation/PKI_Certificates.html][PKI Certificates]]
+* Encrpyt JSS
+- [[https://travellingtechguy.blog/jamf-pro-and-its-certificates/][Jamf Pro and its certificates]]
+- [[https://community.jamf.com/t5/jamf-pro/let-s-encrypt-jss-mac/m-p/239004][Let's Encrypt, JSS, Mac]]
+- [[https://github.com/sean-rabbitt/letsEncryptJSS][sean-rabbitt /letsEncryptJSS]]
+- [[https://community.letsencrypt.org/t/installing-and-configuring-letsencrypt-on-a-mac-os-x-client-server/8407][Installing and Configuring LetsEncrypt on a Mac OS X Client Server]]
+- [[https://tecadmin.net/how-to-install-lets-encrypt-ssl-with-tomcat/][How To Secure Tomcat with Let’s Encrypt SSL]]
+- [[https://www.macstrategy.com/article.php?211][How To Setup Let's Encrypt For OS X / macOS + Server 5.x]]
 * Downlaod New macOS
 參考 [[https://osxdaily.com/2020/04/13/how-download-full-macos-installer-terminal/][How to Download Full MacOS Installers from Command Line]]
 ** How to Download Full MacOS Installer from Mac Command Line
@@ -67,7 +121,6 @@ Software Update found the following full installers:
 ,* Title: macOS Catalina, Version: 10.15.7, Size: 8248854894K, Build: 19H2
 ,* Title: macOS Catalina, Version: 10.15.6, Size: 8248781171K, Build: 19G2021
 #+end_example
-
 * Upgrade to Monterey via Jamf Pro
 參考: [[https://community.jamf.com/t5/jamf-pro/upgrade-all-os-before-monterey/td-p/266870][Upgrade All OS before Monterey]]
 ** remote command
@@ -78,12 +131,10 @@ The simplest way is using remote command to update/upgrade.
 ** use softwareupdate command
 ** third-party app
 erase
-
 * Mount SMB file
 #+begin_src shell -r -n :results output :exports both
 mount -t smbfs //student:tnfsh403@192.168.16.200/caspershare ~/Desktop
 #+end_src
-
 * Change Host Name
 #+begin_src shell -r -n :results output :exports both
 sudo scutil --set HostName XX
@@ -94,8 +145,30 @@ sudo scutil --set ComputerName XX
 #+begin_src shell -r -n :results output :exports both
 sudo networksetup -setdnsservers Ethernet 192.168.7.7 8.8.8.8
 #+end_src
+* ZSH
+** git clone zshrc
+** Install powerlevel10k
+#+begin_src shell -r -n :results output :exports both
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+#+end_src
 
+#+RESULTS:
+** Install  zsh-syntax-highlighting
+#+begin_src shell -r -n :results output :exports both
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+echo "source ${(q-)PWD}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
+#+end_src
 * Printer
+** 無法自Admin加入Printer
+1. 關閉Jamf Admin
+2. 開啟Terminal
+3. 建立空白plist
+#+begin_src shell -r :results output :exports both :eval no
+sudo touch /Library/Preferences/com.jamfsoftware.jamf.plist
+#+end_src
+4. 執行Jamf Admin
+來源: [[https://community.jamf.com/t5/jamf-pro/add-printers-on-jamf-admin-not-working-on-high-sierra/m-p/199814][Add Printers on Jamf Admin not working on High Sierra? ]]
+** 參考
 - [[https://docs.jamf.com/10.24.1/jamf-pro/administrator-guide/Administering_Printers.html][ Administering Printers]]
 - [[https://docs.jamf.com/10.24.1/jamf-pro/administrator-guide/Managing_Printers.html][ Managing Printers]]
 - [[https://themacadmin.com/2019/02/27/adding-printers-to-jamf-pro-via-web-app/][Adding Printers to Jamf Pro via Web App]]

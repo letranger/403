@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2022-06-20 Mon 19:03 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Openvino v.s. NCS2</title>
+<meta name="author" content="Yung-Chin Yen" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<link rel="stylesheet" type="text/css" href="../css/white.css" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Openvino v.s. NCS2</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org07dd4bb">1. Intel OpenVINO</a>
+<ul>
+<li><a href="#org65d7270">1.1. 簡介</a></li>
+<li><a href="#org4517c73">1.2. 功能</a></li>
+<li><a href="#orge885f02">1.3. 程式架構</a></li>
+</ul>
+</li>
+<li><a href="#org334d4cb">2. Installation</a>
+<ul>
+<li><a href="#org1437157">2.1. 安裝Cmake</a></li>
+<li><a href="#org10411be">2.2. 安裝openvino toolkit</a></li>
+<li><a href="#org756a2ce">2.3. Jamf remote command</a></li>
+<li><a href="#org4b735fe">2.4. 安裝brew</a></li>
+<li><a href="#org8e9af2a">2.5. Remote Desktop以管理者身份安裝opencv, libusb</a></li>
+<li><a href="#orgcef1ac9">2.6. Remote Desktop以student執行</a></li>
+</ul>
+</li>
+<li><a href="#org33173ed">3. 上次的做法</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org07dd4bb" class="outline-2">
+<h2 id="org07dd4bb"><span class="section-number-2">1.</span> Intel OpenVINO</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org65d7270" class="outline-3">
+<h3 id="org65d7270"><span class="section-number-3">1.1.</span> 簡介</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>OpenVINO為Intel開發的Edge AI套件，具有模型優化器和推理引擎，可支援 Windows、Linux （Ubuntu、CentOS）等作業系統</li>
+<li>Edge AI指將人工智慧佈署在邊緣設備中，相較於 Cloud penAI，他可以提升執行效率以及避免隱私洩露的問題，因此 AIoT 也從 Cloud AI延伸到了 Edge AI<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>。</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org4517c73" class="outline-3">
+<h3 id="org4517c73"><span class="section-number-3">1.2.</span> 功能</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+OpenVINO 提供的重要功能就是 Model Optimizer 以及 Inference Engine，執行流程如下
+</p>
+<ol class="org-ol">
+<li>訓練好的模型經由 Model Optimizer 生成IR文件( xml 與 bin檔案)</li>
+<li>接著由 OpenVINO 的 Inference Engine讀取 IR model 進行推論(可透過Python與C++呼叫API來進行推論)</li>
+<li>使用者就可以透過 OpenVINO Toolkit和Inference Engine API 整合至開發應用程式。</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orge885f02" class="outline-3">
+<h3 id="orge885f02"><span class="section-number-3">1.3.</span> 程式架構</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+OpenVINO基本架構如下:
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr">1: </span><span style="color: #51afef;">from</span> openvino.inference_engine
+<span class="linenr">2: </span><span style="color: #51afef;">import</span> IENetwork, IECore
+<span class="linenr">3: </span><span style="color: #dcaeea;">ie</span> = IECore()
+<span class="linenr">4: </span><span style="color: #5B6268;"># </span><span style="color: #5B6268;">&#36889;&#37002;&#27169;&#22411;&#26159;&#29992; human pose estimation &#30340; model</span>
+<span class="linenr">5: </span><span style="color: #dcaeea;">model_hp</span> = <span style="color: #98be65;">""</span> <span style="color: #98be65;">"D:/model/Transportation/human_pose_estimation/mobilenet-v1/dldt/FP16/human-pose-estimation-0001"</span>
+<span class="linenr">6: </span><span style="color: #dcaeea;">network</span>= IENetwork(model=model_hp+<span style="color: #98be65;">".xml"</span>, weights=model_hp+<span style="color: #98be65;">".bin"</span>)
+<span class="linenr">7: </span>executable_network= ie.load_netw2ork(network, <span style="color: #98be65;">"CPU"</span>)
+<span class="linenr">8: </span>infer_request= executable_network.infer(inputs={input_name_hp: inblob})
+<span class="linenr">9: </span>res = executable_network.requests[cur_request_id].outputs[out_blob]
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org334d4cb" class="outline-2">
+<h2 id="org334d4cb"><span class="section-number-2">2.</span> Installation</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org1437157" class="outline-3">
+<h3 id="org1437157"><span class="section-number-3">2.1.</span> 安裝Cmake</h3>
+<div class="outline-text-3" id="text-2-1">
+<ol class="org-ol">
+<li>檔案在NAS</li>
+<li>加入.zshrc的path，參考<a href="https://medium.com/ching-i/intel-openvino%E4%BB%8B%E7%B4%B9%E8%88%87%E5%AE%89%E8%A3%9D%E6%95%99%E5%AD%B8-15b07473d998">Intel OpenVINO介紹與安裝教學</a></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org10411be" class="outline-3">
+<h3 id="org10411be"><span class="section-number-3">2.2.</span> 安裝openvino toolkit</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+要裝哪一版的toolkit才能正確執行Intel教材?
+</p>
+</div>
+<div id="outline-container-org4412842" class="outline-4">
+<h4 id="org4412842"><span class="section-number-4">2.2.1.</span> m_openvino_toolkit_p_2022.1.0.643_offline.dmg</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #c678dd;">cd</span> /opt/intel/openvino_2022.1.0.643
+./setupvars.sh
+pip install openvino-dev tensorflow onnx
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgfb39fa6" class="outline-4">
+<h4 id="orgfb39fa6"><span class="section-number-4">2.2.2.</span> openvino_2021</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #c678dd;">cd</span> /opt/intel/openvino_2021/deployment_tools/model_optimizer/install_prerequisites
+./install_prerequisites.sh
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org756a2ce" class="outline-3">
+<h3 id="org756a2ce"><span class="section-number-3">2.3.</span> Jamf remote command</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+以brew安裝opencv, 或以其他user安裝
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">sudo chown -R student /usr/local
+sudo chown -R student /opt
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org4b735fe" class="outline-3">
+<h3 id="org4b735fe"><span class="section-number-3">2.4.</span> 安裝brew</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+以Remote Desktop或Jamf的管理者身份安裝, 跳過command line按Enter步驟
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">ruby -e <span style="color: #98be65;">"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</span> &lt; /dev/null
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org8e9af2a" class="outline-3">
+<h3 id="org8e9af2a"><span class="section-number-3">2.5.</span> Remote Desktop以管理者身份安裝opencv, libusb</h3>
+<div class="outline-text-3" id="text-2-5">
+<div class="org-src-container">
+<pre class="src src-shell">/usr/local/bin/brew install opencv
+/usr/local/bin/brew install libusb <span style="color: #5B6268;">#</span><span style="color: #5B6268;">for NCS2 Stick</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcef1ac9" class="outline-3">
+<h3 id="orgcef1ac9"><span class="section-number-3">2.6.</span> Remote Desktop以student執行</h3>
+<div class="outline-text-3" id="text-2-6">
+</div>
+<div id="outline-container-org2e82139" class="outline-4">
+<h4 id="org2e82139"><span class="section-number-4">2.6.1.</span> 解說</h4>
+<div class="outline-text-4" id="text-2-6-1">
+<div class="org-src-container">
+<pre class="src src-shell"><span class="linenr"> 1: </span><span style="color: #5B6268;"># </span><span style="color: #5B6268;">&#21319;&#32026;pip conda</span>
+<span class="linenr"> 2: </span>python -m pip install --upgrade pip
+<span class="linenr"> 3: </span>conda update -n base -c defaults conda -y
+<span class="linenr"> 4: </span><span style="color: #5B6268;"># </span><span style="color: #5B6268;">&#24314;&#31435;conda &#29872;&#22659;</span>
+<span class="linenr"> 5: </span>conda create -n openvino <span style="color: #dcaeea;">python</span>=<span style="color: #da8548; font-weight: bold;">3.7</span> -y
+<span class="linenr"> 6: </span><span style="color: #5B6268;"># </span><span style="color: #5B6268;">&#21855;&#29992;openvino</span>
+<span class="linenr"> 7: </span>conda activate openvino
+<span class="linenr"> 8: </span>
+<span class="linenr"> 9: </span>conda install openvino-ie4py -c intel -y
+<span class="linenr">10: </span>conda install opencv -y
+<span class="linenr">11: </span>
+<span class="linenr">12: </span>pip3 install opencv-python
+<span class="linenr">13: </span>pip3 install openvino
+<span class="linenr">14: </span>pip3 install numpy
+<span class="linenr">15: </span>pip3 install openvino-dev
+<span class="linenr">16: </span><span style="color: #5B6268;"># </span><span style="color: #5B6268;">&#19979;&#36617;openvino notebook</span>
+<span class="linenr">17: </span><span style="color: #c678dd;">cd</span> /Users/student/Desktop
+<span class="linenr">18: </span>git clone https://github.com/openvinotoolkit/openvino_notebooks.git
+<span class="linenr">19: </span><span style="color: #c678dd;">cd</span> ~/Desktop/openvino_notebooks
+<span class="linenr">20: </span>pip3 install -r requirements.txt
+<span class="linenr">21: </span>
+<span class="linenr">22: </span><span style="color: #5B6268;"># </span><span style="color: #5B6268;">&#23559;conda&#29872;&#22659;&#24314;&#31435;&#28858;jupyter notebook kernel</span>
+<span class="linenr">23: </span>conda install -c anaconda ipykernel -y
+<span class="linenr">24: </span>python -m ipykernel install --user --name=openvino
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org30a19ad" class="outline-4">
+<h4 id="org30a19ad"><span class="section-number-4">2.6.2.</span> Remote Desktop Copy/Paste版本</h4>
+<div class="outline-text-4" id="text-2-6-2">
+<div class="org-src-container">
+<pre class="src src-shell">/opt/anaconda3/bin/python -m pip install --upgrade pip
+/opt/anaconda3/bin/conda update -n base -c defaults conda -y
+/opt/anaconda3/bin/conda init zsh
+/opt/anaconda3/bin/conda create -n openvino <span style="color: #dcaeea;">python</span>=<span style="color: #da8548; font-weight: bold;">3.7</span> -y
+conda activate openvino
+/opt/anaconda3/bin/conda install openvino-ie4py -c intel -y
+/opt/anaconda3/bin/conda install opencv -y
+/usr/local/bin/pip3 install opencv-python
+/usr/local/bin/pip3 install openvino
+/usr/local/bin/pip3 install numpy
+/usr/local/bin/pip3 install openvino-dev
+<span style="color: #c678dd;">cd</span> /Users/student/Desktop
+/usr/bin/git clone https://github.com/openvinotoolkit/openvino_notebooks.git
+<span style="color: #c678dd;">cd</span> ~/Desktop/openvino_notebooks
+/usr/local/bin/pip3 install -r requirements.txt
+/opt/anaconda3/bin/conda install -c anaconda ipykernel -y
+python -m ipykernel install --user --name=openvino
+</pre>
+</div>
+<p>
+重做
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">jupyter kernelspec uninstall openvino -y
+conda env remove -n openvino
+conda create -n openvino <span style="color: #dcaeea;">python</span>=<span style="color: #da8548; font-weight: bold;">3.7</span> -y
+conda activate openvino
+pip3 install <span style="color: #dcaeea;">numpy</span>==<span style="color: #da8548; font-weight: bold;">1.15</span>
+pip3 uninstall mkl-service -y
+pip3 install mkl-service
+pip3 install  matplotlib
+conda install openvino-ie4py -c intel -y
+pip3 install opencv-python
+pip3 install openvino-dev
+conda install matplotlib -y
+conda install tensorflow -y
+conda install -c anaconda ipykernel -y
+python -m ipykernel install --user --name=openvino
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org33173ed" class="outline-2">
+<h2 id="org33173ed"><span class="section-number-2">3.</span> 上次的做法</h2>
+<div class="outline-text-2" id="text-3">
+<ol class="org-ol">
+<li>Install cmake</li>
+<li>文字,東西在 NAS</li>
+<li>Add /Applications/CMake.app/Contents/bin to path (for default install)
+edit .bashrc file,加入</li>
+</ol>
+<div class="org-src-container">
+<pre class="src src-shell">source/opt/anaconda3/etc/profile.d/conda.sh
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">update conda</span>
+conda update -n base -c defaults conda
+python -m pip install --upgrade pip
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">create environment</span>
+conda create --name Intel -y
+conda activate openvino_env
+
+pip install openvino-dev
+conda install Intel
+
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">&#23433;&#35037; m_openvino_toolkit_p_2022.1.0.643_offline.dmg</span>
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">&#22519;&#34892; bootstrapper</span>
+<span style="color: #c678dd;">cd</span> /opt/intel/openvino_2022.1.0.643
+./setupvars.sh
+pip install openvino-dev tensorflow onnx
+
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">install requirement</span>
+<span style="color: #c678dd;">cd</span> /opt/intel/openvino_2021/deployment_tools/model_optimizer/install_prerequisites
+./install_prerequisites.sh
+
+
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">install requirement</span>
+<span style="color: #c678dd;">cd</span> ~/Desktop
+git clone https://github.com/openvinotoolkit/openvino_notebooks.git
+<span style="color: #c678dd;">cd</span> ~/Desktop/openvino_notebooks
+pip install -r requirements.txt
+
+
+
+
+
+conda install openvino-ie4py -c intel -y
+conda install -c anaconda ipykernel -y
+pip install ipykernel -y
+pip install matplotlib -y
+pip install opencv-python -y
+<span style="color: #c678dd;">cd</span> /opt/anaconda3/lib/python3.8/site-packages
+cp -r /opt/intel/openvino_2021.4.689/python/python3.8/openvino .
+python -m ipykernel install --user --name openvino_env
+
+
+
+mo
+sh demo_benchmark_app.sh
+sh demo_security_barrier_camera.sh
+sh demo_squeezenet_download_convert_run.sh
+</pre>
+</div>
+
+<ol class="org-ol">
+<li><p>
+Install cv2
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">pip3 install --user opencv-python
+</pre>
+</div></li>
+
+<li><p>
+copy openvino to site_package
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #c678dd;">cd</span> /opt/anaconda3/lib/python3.8/site-packages
+cp -r /opt/intel/openvino_2021.4.689/python/python3.8/openvino .
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<a href="https://medium.com/ching-i/intel-openvino%E4%BB%8B%E7%B4%B9%E8%88%87%E5%AE%89%E8%A3%9D%E6%95%99%E5%AD%B8-15b07473d998">Intel OpenVINO介紹與安裝教學</a>
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="author">Author: Yung-Chin Yen</p>
+<p class="date">Created: 2022-06-20 Mon 19:03</p>
+</div>
+</body>
+</html>

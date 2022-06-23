@@ -3,11 +3,11 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-06-02 Thu 15:04 -->
+<!-- 2022-06-21 Tue 21:51 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Jamf</title>
-<meta name="author" content="Yung Chin, Yen" />
+<meta name="author" content="Yung-Chin Yen" />
 <meta name="generator" content="Org Mode" />
 <style>
   #content { max-width: 60em; margin: auto; }
@@ -193,6 +193,7 @@
     { background-color: #ffff00; color: #000000; font-weight: bold; }
   .org-svg { }
 </style>
+<link rel="stylesheet" type="text/css" href="../css/white.css" />
 </head>
 <body>
 <div id="content" class="content">
@@ -201,41 +202,52 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org1a65c72">1. 無法enroll client</a>
+<li><a href="#orga7f7b62">1. 無法enroll client</a>
 <ul>
-<li><a href="#org90b61aa">1.1. 出現錯誤訊息</a></li>
-<li><a href="#org7318f50">1.2. Solution</a></li>
+<li><a href="#org5b2550d">1.1. 出現錯誤訊息</a></li>
+<li><a href="#org6122580">1.2. Solution</a></li>
+<li><a href="#orgf7e4195">1.3. 無法下載CA Certificate(s)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="ATTACH">ATTACH</span></span></a></li>
 </ul>
 </li>
-<li><a href="#orgb39d9bc">2. Downlaod New macOS</a>
+<li><a href="#orge46b8b9">2. Encrpyt JSS</a></li>
+<li><a href="#org7f9d2bc">3. Downlaod New macOS</a>
 <ul>
-<li><a href="#org9e53a61">2.1. How to Download Full MacOS Installer from Mac Command Line</a>
-<ul>
-<li><a href="#orga5b76d9">2.1.1. 列出可下載macOS Installers</a></li>
+<li><a href="#org1bc42de">3.1. How to Download Full MacOS Installer from Mac Command Line</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li><a href="#orgd83371e">3. Upgrade to Monterey via Jamf Pro</a>
+<li><a href="#orga86dfbd">4. Upgrade to Monterey via Jamf Pro</a>
 <ul>
-<li><a href="#org252b96a">3.1. remote command</a></li>
-<li><a href="#org3926768">3.2. use softwareupdate command</a></li>
-<li><a href="#orgd407d0f">3.3. third-party app</a></li>
+<li><a href="#orgd541ccd">4.1. remote command</a></li>
+<li><a href="#orgce36a54">4.2. use softwareupdate command</a></li>
+<li><a href="#orgc09ca31">4.3. third-party app</a></li>
 </ul>
 </li>
-<li><a href="#orgc7da9c8">4. Mount SMB file</a></li>
-<li><a href="#org7a9c9b4">5. Setup DNS Server</a></li>
-<li><a href="#orga0f3e32">6. Printer</a></li>
+<li><a href="#orge6b2f81">5. Mount SMB file</a></li>
+<li><a href="#orgac16c4f">6. Change Host Name</a></li>
+<li><a href="#org1874474">7. Setup DNS Server</a></li>
+<li><a href="#orgc3e1eff">8. ZSH</a>
+<ul>
+<li><a href="#orga0870e6">8.1. git clone zshrc</a></li>
+<li><a href="#org985fbf4">8.2. Install powerlevel10k</a></li>
+<li><a href="#orgf01d925">8.3. Install  zsh-syntax-highlighting</a></li>
+</ul>
+</li>
+<li><a href="#orga8ce07d">9. Printer</a>
+<ul>
+<li><a href="#org0a04c5f">9.1. 無法自Admin加入Printer</a></li>
+<li><a href="#org3cdfcf8">9.2. 參考</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org1a65c72" class="outline-2">
-<h2 id="org1a65c72"><span class="section-number-2">1.</span> 無法enroll client</h2>
+<div id="outline-container-orga7f7b62" class="outline-2">
+<h2 id="orga7f7b62"><span class="section-number-2">1.</span> 無法enroll client</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-org90b61aa" class="outline-3">
-<h3 id="org90b61aa"><span class="section-number-3">1.1.</span> 出現錯誤訊息</h3>
+<div id="outline-container-org5b2550d" class="outline-3">
+<h3 id="org5b2550d"><span class="section-number-3">1.1.</span> 出現錯誤訊息</h3>
 <div class="outline-text-3" id="text-1-1">
 <p class="verse">
 An error occurred while enrolling computer: The jamf binary could not connect to the JSS because the web certificate is not trusted.<br />
@@ -245,10 +257,15 @@ An error occurred while enrolling computer: The jamf binary could not connect to
 </p>
 </div>
 </div>
-<div id="outline-container-org7318f50" class="outline-3">
-<h3 id="org7318f50"><span class="section-number-3">1.2.</span> Solution</h3>
+<div id="outline-container-org6122580" class="outline-3">
+<h3 id="org6122580"><span class="section-number-3">1.2.</span> Solution</h3>
 <div class="outline-text-3" id="text-1-2">
 <ol class="org-ol">
+<li>先login Jamf server，再login enrollment page下載quickadd.pkg
+<ul class="org-ul">
+<li><a href="https://bee.tnfsh.tn.edu.tw:8443">https://bee.tnfsh.tn.edu.tw:8443</a> (trust this web)</li>
+<li><a href="https://bee.tnfsh.tn.edu.tw:8443/enroll">https://bee.tnfsh.tn.edu.tw:8443/enroll</a></li>
+</ul></li>
 <li><p>
 Try running the following command:
 新版的OSX要跑這個&#x2026;..
@@ -257,7 +274,6 @@ Try running the following command:
 <pre class="src src-shell"><span class="linenr">1: </span>   sudo jamf trustJSS
 </pre>
 </div></li>
-
 <li>取消SSL certificate (unchecked everything in Security in the JSS)
 <ul class="org-ul">
 <li>Open Jamf-Pro web</li>
@@ -283,18 +299,91 @@ Try running the following command:
 </ol>
 </div>
 </div>
+<div id="outline-container-orgf7e4195" class="outline-3">
+<h3 id="orgf7e4195"><span class="section-number-3">1.3.</span> 無法下載CA Certificate(s)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="ATTACH">ATTACH</span></span></h3>
+<div class="outline-text-3" id="text-1-3">
+</div>
+<div id="outline-container-orgbd03ddc" class="outline-4">
+<h4 id="orgbd03ddc"><span class="section-number-4">1.3.1.</span> 錯誤畫面(Attach)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="ATTACH">ATTACH</span></span></h4>
+<div class="outline-text-4" id="text-1-3-1">
+
+<div id="org44f2efe" class="figure">
+<p><img src="file:///Users/letranger/Dropbox/.attach/63/123297-0c80-4967-a299-8ed8cf5734d2/_20220621_21505020220621_1656242022-06-21_16-56-18.png" alt="_20220621_21505020220621_1656242022-06-21_16-56-18.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org49eedde" class="outline-4">
+<h4 id="org49eedde"><span class="section-number-4">1.3.2.</span> 錯誤畫面(img)</h4>
+<div class="outline-text-4" id="text-1-3-2">
+
+<div id="org1687c98" class="figure">
+<p><img src="images/20220621_1656242022-06-21_16-56-18.png" alt="20220621_1656242022-06-21_16-56-18.png" width="500" />
+</p>
+<p><span class="figure-number">Figure 1: </span>Caption</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcc4559c" class="outline-4">
+<h4 id="orgcc4559c"><span class="section-number-4">1.3.3.</span> 錯誤訊息(verse)</h4>
+<div class="outline-text-4" id="text-1-3-3">
+<p class="verse">
+(base) letranger@Mini11 ~ % sudo jamf trustjss<br />
+Password:<br />
+Downloading required CA Certificate(s)&#x2026;<br />
+<br />
+There was an error.<br />
+<br />
+&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;Unable to add the certificates to the System keychain&#x2026;<br />
+</p>
+</div>
+</div>
+<div id="outline-container-org2dd817c" class="outline-4">
+<h4 id="org2dd817c"><span class="section-number-4">1.3.4.</span> 錯誤訊息(quote)</h4>
+<div class="outline-text-4" id="text-1-3-4">
+<blockquote>
+<p>
+(base) letranger@Mini11 ~ % sudo jamf trustjss
+Password:
+Downloading required CA Certificate(s)&#x2026;
+</p>
+
+<p>
+There was an error.
+</p>
+
+<p>
+Unable to add the certificates to the System keychain&#x2026;
+</p>
+</blockquote>
+</div>
+</div>
+</div>
 </div>
 
-<div id="outline-container-orgb39d9bc" class="outline-2">
-<h2 id="orgb39d9bc"><span class="section-number-2">2.</span> Downlaod New macOS</h2>
+<div id="outline-container-orge46b8b9" class="outline-2">
+<h2 id="orge46b8b9"><span class="section-number-2">2.</span> Encrpyt JSS</h2>
 <div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li><a href="https://travellingtechguy.blog/jamf-pro-and-its-certificates/">Jamf Pro and its certificates</a></li>
+<li><a href="https://community.jamf.com/t5/jamf-pro/let-s-encrypt-jss-mac/m-p/239004">Let&rsquo;s Encrypt, JSS, Mac</a></li>
+<li><a href="https://github.com/sean-rabbitt/letsEncryptJSS">sean-rabbitt /letsEncryptJSS</a></li>
+<li><a href="https://community.letsencrypt.org/t/installing-and-configuring-letsencrypt-on-a-mac-os-x-client-server/8407">Installing and Configuring LetsEncrypt on a Mac OS X Client Server</a></li>
+<li><a href="https://tecadmin.net/how-to-install-lets-encrypt-ssl-with-tomcat/">How To Secure Tomcat with Let’s Encrypt SSL</a></li>
+<li><a href="https://www.macstrategy.com/article.php?211">How To Setup Let&rsquo;s Encrypt For OS X / macOS + Server 5.x</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org7f9d2bc" class="outline-2">
+<h2 id="org7f9d2bc"><span class="section-number-2">3.</span> Downlaod New macOS</h2>
+<div class="outline-text-2" id="text-3">
 <p>
 參考 <a href="https://osxdaily.com/2020/04/13/how-download-full-macos-installer-terminal/">How to Download Full MacOS Installers from Command Line</a>
 </p>
 </div>
-<div id="outline-container-org9e53a61" class="outline-3">
-<h3 id="org9e53a61"><span class="section-number-3">2.1.</span> How to Download Full MacOS Installer from Mac Command Line</h3>
-<div class="outline-text-3" id="text-2-1">
+<div id="outline-container-org1bc42de" class="outline-3">
+<h3 id="org1bc42de"><span class="section-number-3">3.1.</span> How to Download Full MacOS Installer from Mac Command Line</h3>
+<div class="outline-text-3" id="text-3-1">
 <ol class="org-ol">
 <li><p>
 Launch the Terminal application as usual, then use the following command syntax, replacing “**.**.*” with the installer version you wish to download:
@@ -303,7 +392,6 @@ Launch the Terminal application as usual, then use the following command syntax,
 <pre class="src src-shell"><span class="linenr">1: </span>   softwareupdate --fetch-full-installer --full-installer-version **.**.*
 </pre>
 </div></li>
-
 <li><p>
 Hit return to start downloading the full installer application of that version of MacOS
 例如:下載Monterey
@@ -314,18 +402,18 @@ Hit return to start downloading the full installer application of that version o
 </div></li>
 </ol>
 </div>
-
-<div id="outline-container-orga5b76d9" class="outline-4">
-<h4 id="orga5b76d9"><span class="section-number-4">2.1.1.</span> 列出可下載macOS Installers</h4>
-<div class="outline-text-4" id="text-2-1-1">
+<div id="outline-container-orga94ffe8" class="outline-4">
+<h4 id="orga94ffe8"><span class="section-number-4">3.1.1.</span> 列出可下載macOS Installers</h4>
+<div class="outline-text-4" id="text-3-1-1">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="linenr">1: </span>softwareupdate --list-full-installers
 </pre>
 </div>
 
-<pre class="example" id="org6c9d34b">
+<pre class="example" id="orgb8b0e74">
 Finding available software
 Software Update found the following full installers:
+* Title: macOS Monterey, Version: 12.4, Size: 12103360613K, Build: 21F79
 * Title: macOS Monterey, Version: 12.3.1, Size: 12225260436K, Build: 21E258
 * Title: macOS Monterey, Version: 12.3, Size: 12222979494K, Build: 21E230
 * Title: macOS Monterey, Version: 12.2.1, Size: 12155426708K, Build: 21D62
@@ -344,17 +432,16 @@ Software Update found the following full installers:
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgd83371e" class="outline-2">
-<h2 id="orgd83371e"><span class="section-number-2">3.</span> Upgrade to Monterey via Jamf Pro</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-orga86dfbd" class="outline-2">
+<h2 id="orga86dfbd"><span class="section-number-2">4.</span> Upgrade to Monterey via Jamf Pro</h2>
+<div class="outline-text-2" id="text-4">
 <p>
 參考: <a href="https://community.jamf.com/t5/jamf-pro/upgrade-all-os-before-monterey/td-p/266870">Upgrade All OS before Monterey</a>
 </p>
 </div>
-<div id="outline-container-org252b96a" class="outline-3">
-<h3 id="org252b96a"><span class="section-number-3">3.1.</span> remote command</h3>
-<div class="outline-text-3" id="text-3-1">
+<div id="outline-container-orgd541ccd" class="outline-3">
+<h3 id="orgd541ccd"><span class="section-number-3">4.1.</span> remote command</h3>
+<div class="outline-text-3" id="text-4-1">
 <p>
 The simplest way is using remote command to update/upgrade.
 </p>
@@ -365,42 +452,101 @@ The simplest way is using remote command to update/upgrade.
 </ol>
 </div>
 </div>
-<div id="outline-container-org3926768" class="outline-3">
-<h3 id="org3926768"><span class="section-number-3">3.2.</span> use softwareupdate command</h3>
+<div id="outline-container-orgce36a54" class="outline-3">
+<h3 id="orgce36a54"><span class="section-number-3">4.2.</span> use softwareupdate command</h3>
 </div>
-<div id="outline-container-orgd407d0f" class="outline-3">
-<h3 id="orgd407d0f"><span class="section-number-3">3.3.</span> third-party app</h3>
-<div class="outline-text-3" id="text-3-3">
+<div id="outline-container-orgc09ca31" class="outline-3">
+<h3 id="orgc09ca31"><span class="section-number-3">4.3.</span> third-party app</h3>
+<div class="outline-text-3" id="text-4-3">
 <p>
 erase
 </p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgc7da9c8" class="outline-2">
-<h2 id="orgc7da9c8"><span class="section-number-2">4.</span> Mount SMB file</h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-orge6b2f81" class="outline-2">
+<h2 id="orge6b2f81"><span class="section-number-2">5.</span> Mount SMB file</h2>
+<div class="outline-text-2" id="text-5">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="linenr">1: </span>mount -t smbfs //student:tnfsh403@192.168.16.200/caspershare ~/Desktop
 </pre>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org7a9c9b4" class="outline-2">
-<h2 id="org7a9c9b4"><span class="section-number-2">5.</span> Setup DNS Server</h2>
-<div class="outline-text-2" id="text-5">
+<div id="outline-container-orgac16c4f" class="outline-2">
+<h2 id="orgac16c4f"><span class="section-number-2">6.</span> Change Host Name</h2>
+<div class="outline-text-2" id="text-6">
+<div class="org-src-container">
+<pre class="src src-shell"><span class="linenr">1: </span>sudo scutil --set HostName XX
+<span class="linenr">2: </span>sudo scutil --set LocalHostName XX
+<span class="linenr">3: </span>sudo scutil --set ComputerName XX
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org1874474" class="outline-2">
+<h2 id="org1874474"><span class="section-number-2">7.</span> Setup DNS Server</h2>
+<div class="outline-text-2" id="text-7">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="linenr">1: </span>sudo networksetup -setdnsservers Ethernet 192.168.7.7 8.8.8.8
 </pre>
 </div>
 </div>
 </div>
-
-<div id="outline-container-orga0f3e32" class="outline-2">
-<h2 id="orga0f3e32"><span class="section-number-2">6.</span> Printer</h2>
-<div class="outline-text-2" id="text-6">
+<div id="outline-container-orgc3e1eff" class="outline-2">
+<h2 id="orgc3e1eff"><span class="section-number-2">8.</span> ZSH</h2>
+<div class="outline-text-2" id="text-8">
+</div>
+<div id="outline-container-orga0870e6" class="outline-3">
+<h3 id="orga0870e6"><span class="section-number-3">8.1.</span> git clone zshrc</h3>
+</div>
+<div id="outline-container-org985fbf4" class="outline-3">
+<h3 id="org985fbf4"><span class="section-number-3">8.2.</span> Install powerlevel10k</h3>
+<div class="outline-text-3" id="text-8-2">
+<div class="org-src-container">
+<pre class="src src-shell"><span class="linenr">1: </span>git clone --depth=<span style="color: #da8548; font-weight: bold;">1</span> https://github.com/romkatv/powerlevel10k.git ${<span style="color: #dcaeea;">ZSH_CUSTOM</span>:-$<span style="color: #dcaeea;">HOME</span>/.oh-my-zsh/custom}/themes/powerlevel10k
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf01d925" class="outline-3">
+<h3 id="orgf01d925"><span class="section-number-3">8.3.</span> Install  zsh-syntax-highlighting</h3>
+<div class="outline-text-3" id="text-8-3">
+<div class="org-src-container">
+<pre class="src src-shell"><span class="linenr">1: </span>git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+<span class="linenr">2: </span><span style="color: #c678dd;">echo</span> <span style="color: #98be65;">"source ${(q-)PWD}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"</span> &gt;&gt; ${<span style="color: #dcaeea;">ZDOTDIR</span>:-$<span style="color: #dcaeea;">HOME</span>}/.zshrc
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orga8ce07d" class="outline-2">
+<h2 id="orga8ce07d"><span class="section-number-2">9.</span> Printer</h2>
+<div class="outline-text-2" id="text-9">
+</div>
+<div id="outline-container-org0a04c5f" class="outline-3">
+<h3 id="org0a04c5f"><span class="section-number-3">9.1.</span> 無法自Admin加入Printer</h3>
+<div class="outline-text-3" id="text-9-1">
+<ol class="org-ol">
+<li>關閉Jamf Admin</li>
+<li>開啟Terminal</li>
+<li>建立空白plist</li>
+</ol>
+<div class="org-src-container">
+<pre class="src src-shell">sudo touch /Library/Preferences/com.jamfsoftware.jamf.plist
+</pre>
+</div>
+<ol class="org-ol">
+<li>執行Jamf Admin</li>
+</ol>
+<p>
+來源: <a href="https://community.jamf.com/t5/jamf-pro/add-printers-on-jamf-admin-not-working-on-high-sierra/m-p/199814">Add Printers on Jamf Admin not working on High Sierra? </a>
+</p>
+</div>
+</div>
+<div id="outline-container-org3cdfcf8" class="outline-3">
+<h3 id="org3cdfcf8"><span class="section-number-3">9.2.</span> 參考</h3>
+<div class="outline-text-3" id="text-9-2">
 <ul class="org-ul">
 <li><a href="https://docs.jamf.com/10.24.1/jamf-pro/administrator-guide/Administering_Printers.html"> Administering Printers</a></li>
 <li><a href="https://docs.jamf.com/10.24.1/jamf-pro/administrator-guide/Managing_Printers.html"> Managing Printers</a></li>
@@ -410,9 +556,10 @@ erase
 </div>
 </div>
 </div>
+</div>
 <div id="postamble" class="status">
-<p class="author">Author: Yung Chin, Yen</p>
-<p class="date">Created: 2022-06-02 Thu 15:04</p>
+<p class="author">Author: Yung-Chin Yen</p>
+<p class="date">Created: 2022-06-21 Tue 21:51</p>
 </div>
 </body>
 </html>
