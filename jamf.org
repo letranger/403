@@ -158,6 +158,27 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
 echo "source ${(q-)PWD}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
 #+end_src
+* Scripts for changing Safari homepage
+[[https://community.jamf.com/t5/jamf-pro/setting-safari-homepage-in-mojave-with-sip/td-p/140213][@julienvs ]]
+#+begin_src shell -r -n :results output :exports both :eval no
+
+#!/bin/bash
+#variable for storing the current users name
+currentuser=`stat -f "%Su" /dev/console`
+
+#substituting as user stored in variable to modify plist
+#echo "$currentuser"
+
+defaults write /Users/$currentuser/Library/Containers/com.apple.Safari/Data/Library/Preferences/com.apple.Safari.plist HomePage moodle.tnfsh.tn.edu.tw
+defaults write /Users/$currentuser/Library/Containers/com.apple.Safari/Data/Library/Preferences/com.apple.Safari.plist NewWindowBehavior -int 0
+defaults write /Users/$currentuser/Library/Containers/com.apple.Safari/Data/Library/Preferences/com.apple.Safari.plist NewTabBehavior -int 0
+chown $currentuser /Users/$currentuser/Library/Containers/com.apple.Safari/Data/Library/Preferences/com.apple.Safari.plist
+
+killall cfprefsd
+#+end_src
+
+
+
 * Printer
 ** 無法自Admin加入Printer
 1. 關閉Jamf Admin
