@@ -1,6 +1,13 @@
 #+TITLE: Docker
-#+include: ../web.org
-#+OPTIONS: ^:nil
+# -*- org-export-babel-evaluate: nil -*-'
+#+TAGS: 403, TNFSH, Docker
+#+OPTIONS: toc:2 ^:nil num:5
+#+PROPERTY: header-args :eval never-export
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../css/muse.css" />
+#+begin_export html
+<a href="https://hits.sh/letranger.github.io/403/docker.html/"><img align="right" alt="Hits" src="https://hits.sh/letranger.github.io/403/docker.html.svg?style=plastic"/></a>
+#+end_export
+
 
 * Install Ubuntu on Mac
 1. Download Ubuntu ISO

@@ -3,11 +3,11 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-06-01 Wed 13:49 -->
+<!-- 2022-12-08 Thu 16:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Docker</title>
-<meta name="author" content="Yung-Chin Yen" />
+<meta name="author" content="Yung Chin, Yen" />
 <meta name="generator" content="Org Mode" />
 <style>
   #content { max-width: 60em; margin: auto; }
@@ -193,13 +193,7 @@
     { background-color: #ffff00; color: #000000; font-weight: bold; }
   .org-svg { }
 </style>
-<link rel="stylesheet" type="text/css" href="https://letranger.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="https://letranger.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js"></script>
-<style>pre.src{background:#a569bd;color:white;}</style>
+<link rel="stylesheet" type="text/css" href="../css/muse.css" />
 </head>
 <body>
 <div id="content" class="content">
@@ -208,97 +202,89 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orga5561c6">1. Install Ubuntu on Mac</a></li>
-<li><a href="#orgf9288d9">2. 安裝MariaDB Galera Cluster</a>
+<li><a href="#org5df6023">1. Install Ubuntu on Mac</a></li>
+<li><a href="#org8ffcee4">2. 安裝MariaDB Galera Cluster</a>
 <ul>
-<li><a href="#org033b8d7">2.1. 安裝系統</a>
-<ul>
-<li><a href="#orgb865ac8">2.1.1. Installing MariaDB on ALL Nodes</a></li>
+<li><a href="#org1212a9d">2.1. 安裝系統</a></li>
+<li><a href="#org8691828">2.2. 設定50-server.cnf</a></li>
+<li><a href="#org1a296da">2.3. 設定galera.cnf</a></li>
+<li><a href="#org3b27183">2.4. 驗證Verify Replication</a></li>
 </ul>
 </li>
-<li><a href="#orgb78701a">2.2. 設定50-server.cnf</a></li>
-<li><a href="#org7405091">2.3. 設定galera.cnf</a></li>
-<li><a href="#org941ade6">2.4. 驗證Verify Replication</a></li>
-</ul>
-</li>
-<li><a href="#orge89a313">3. MariaDB Galera問題處理</a>
+<li><a href="#orgba9137c">3. MariaDB Galera問題處理</a>
 <ul>
-<li><a href="#org1e70ead">3.1. 重新啟動後,其他node無法join</a></li>
-<li><a href="#org2e75610">3.2. master無法galera_new_cluster</a></li>
+<li><a href="#org494c7d3">3.1. 重新啟動後,其他node無法join</a></li>
+<li><a href="#org5b8e335">3.2. master無法galera_new_cluster</a></li>
 </ul>
 </li>
-<li><a href="#org5b14993">4. 移除MariaDB</a></li>
-<li><a href="#org4cdb21b">5. 架設haproxy</a>
+<li><a href="#org06119ff">4. 移除MariaDB</a></li>
+<li><a href="#org236f014">5. 架設haproxy</a>
 <ul>
-<li><a href="#orgef3ccb9">5.1. 移除</a></li>
-<li><a href="#orgb6cdb8d">5.2. 安裝</a></li>
-<li><a href="#org7007816">5.3. 編輯haproxy.cfg</a></li>
-<li><a href="#org1709b0d">5.4. 重啟haproxy</a></li>
-<li><a href="#org04216a9">5.5. 建立mysql-check user</a></li>
-<li><a href="#orgdf9ee25">5.6. 測試</a></li>
-<li><a href="#orgf31cc2c">5.7. 架設Load Balance（HA Proxy）</a></li>
+<li><a href="#org825d4a2">5.1. 移除</a></li>
+<li><a href="#org7e35959">5.2. 安裝</a></li>
+<li><a href="#org41b119c">5.3. 編輯haproxy.cfg</a></li>
+<li><a href="#org1ea24ac">5.4. 重啟haproxy</a></li>
+<li><a href="#orgc090393">5.5. 建立mysql-check user</a></li>
+<li><a href="#org636e556">5.6. 測試</a></li>
+<li><a href="#org2f167fc">5.7. 架設Load Balance（HA Proxy）</a></li>
 </ul>
 </li>
-<li><a href="#orgeb84eb6">6. 監測haproxy</a>
+<li><a href="#orgf4a918f">6. 監測haproxy</a>
 <ul>
-<li><a href="#org4d3cbaa">6.1. references</a></li>
-<li><a href="#org15869b2">6.2. 大量加入mysql資料</a></li>
-<li><a href="#org5e1e1c8">6.3. 被監控端</a></li>
-<li><a href="#orgc6a06b5">6.4. 把node_exporter改為service自動執行</a></li>
-<li><a href="#orge69a9be">6.5. 把mysqld_exporter改為service自動執行</a></li>
+<li><a href="#org0f1e1e0">6.1. references</a></li>
+<li><a href="#orga550175">6.2. 大量加入mysql資料</a></li>
+<li><a href="#orgb41c5b4">6.3. 被監控端</a></li>
+<li><a href="#org37207ab">6.4. 把node_exporter改為service自動執行</a></li>
+<li><a href="#org0314086">6.5. 把mysqld_exporter改為service自動執行</a></li>
 </ul>
 </li>
-<li><a href="#org3d30ce8">7. Prometheus</a>
+<li><a href="#org384cef6">7. Prometheus</a>
 <ul>
-<li><a href="#org94b1b7d">7.1. 把node_exporter改為service自動執行</a></li>
+<li><a href="#orgb4f09e9">7.1. 把node_exporter改為service自動執行</a></li>
 </ul>
 </li>
-<li><a href="#orgf14bc03">8. phpmyadmin</a></li>
-<li><a href="#org11e6b4d">9. Nginx v.s. Moodle</a>
+<li><a href="#orgd94b197">8. phpmyadmin</a></li>
+<li><a href="#org6a66e5a">9. Nginx v.s. Moodle</a>
 <ul>
-<li><a href="#org6512a63">9.1. 移除套件</a></li>
-<li><a href="#org3625d91">9.2. 安裝套件</a></li>
-<li><a href="#org17ab607">9.3. 編輯php.ini</a></li>
-<li><a href="#orgbacea28">9.4. 安裝Moodle</a>
+<li><a href="#org56f998a">9.1. 移除套件</a></li>
+<li><a href="#org26b38c2">9.2. 安裝套件</a></li>
+<li><a href="#orgc352fe0">9.3. 編輯php.ini</a></li>
+<li><a href="#org4d07439">9.4. 安裝Moodle</a></li>
+</ul>
+</li>
+<li><a href="#org090fd91">10. Docker commands</a>
 <ul>
-<li><a href="#org6ddd10b">9.4.1. Download</a></li>
-<li><a href="#org264dbe3">9.4.2. 建立目錄</a></li>
-<li><a href="#org85601fb">9.4.3. 設定Nginx for Moodle</a></li>
+<li><a href="#orgfd5102a">10.1. List comtainer</a></li>
+<li><a href="#orgcf47234">10.2. commit</a></li>
+<li><a href="#org41122f3">10.3. run</a></li>
+<li><a href="#org13ba8fa">10.4. duplicate</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li><a href="#org4c531bb">10. Docker commands</a>
-<ul>
-<li><a href="#orgfffcd2f">10.1. List comtainer</a></li>
-<li><a href="#org31a10a3">10.2. commit</a></li>
-<li><a href="#orgee1a91c">10.3. run</a></li>
-<li><a href="#orga81bd42">10.4. duplicate</a></li>
-</ul>
-</li>
-<li><a href="#orge3b69e9">11. References</a></li>
+<li><a href="#org1df1438">11. References</a></li>
 </ul>
 </div>
 </div>
+<a href="https://hits.sh/letranger.github.io/403/docker.html/"><img align="right" alt="Hits" src="https://hits.sh/letranger.github.io/403/docker.html.svg?style=plastic"/></a>
 
-<div id="outline-container-orga5561c6" class="outline-2">
-<h2 id="orga5561c6"><span class="section-number-2">1.</span> Install Ubuntu on Mac</h2>
+
+<div id="outline-container-org5df6023" class="outline-2">
+<h2 id="org5df6023"><span class="section-number-2">1.</span> Install Ubuntu on Mac</h2>
 <div class="outline-text-2" id="text-1">
 <ol class="org-ol">
-<li>Download Ubuntu ISO<br /></li>
-<li>Open Disk Utility, Create 1 Partition to Mac OS Extended (Journaled) for USB Stick.<br /></li>
-<li>Click the <b>Options</b> Button and ensure that GUID Partition Table is selected and then click OK.<br /></li>
-<li>Open Terminal and enter the following commands<br />
+<li>Download Ubuntu ISO</li>
+<li>Open Disk Utility, Create 1 Partition to Mac OS Extended (Journaled) for USB Stick.</li>
+<li>Click the <b>Options</b> Button and ensure that GUID Partition Table is selected and then click OK.</li>
+<li>Open Terminal and enter the following commands
 <ol class="org-ol">
 <li><p>
-Convert ISO to IMG<br />
+Convert ISO to IMG
 </p>
 <div class="org-src-container">
 <pre class="src src-shell">hdiutil convert -format UDRW -o ~/path/to/target.img ~/path/to/ubuntu.iso
 </pre>
 </div></li>
 <li><p>
-Find USB disk Number and unmount it<br />
+Find USB disk Number and unmount it
 </p>
 <div class="org-src-container">
 <pre class="src src-shell">diskutil list
@@ -306,71 +292,71 @@ diskutil unmountDisk /dev/diskN
 </pre>
 </div></li>
 <li><p>
-Create bootable USB<br />
+Create bootable USB
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">sudo dd <span style="color: #dcaeea;">if</span>=/path/to/downloaded.img <span style="color: #dcaeea;">of</span>=/dev/diskN <span style="color: #dcaeea;">bs</span>=1m
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> dd <span style="color: #dcaeea;">if</span>=/path/to/downloaded.img <span style="color: #dcaeea;">of</span>=/dev/diskN <span style="color: #dcaeea;">bs</span>=1m
 </pre>
 </div></li>
-<li>Install<br /></li>
+<li>Install</li>
 </ol></li>
 </ol>
 </div>
 </div>
-<div id="outline-container-orgf9288d9" class="outline-2">
-<h2 id="orgf9288d9"><span class="section-number-2">2.</span> 安裝MariaDB Galera Cluster</h2>
+<div id="outline-container-org8ffcee4" class="outline-2">
+<h2 id="org8ffcee4"><span class="section-number-2">2.</span> 安裝MariaDB Galera Cluster</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
-<li><a href="https://cloudinfrastructureservices.co.uk/how-to-setup-mariadb-clustering-on-ubuntu-20-04/">How to Setup Mariadb Clustering on Ubuntu 20.04</a><br /></li>
+<li><a href="https://cloudinfrastructureservices.co.uk/how-to-setup-mariadb-clustering-on-ubuntu-20-04/">How to Setup Mariadb Clustering on Ubuntu 20.04</a></li>
 </ul>
 </div>
-<div id="outline-container-org033b8d7" class="outline-3">
-<h3 id="org033b8d7"><span class="section-number-3">2.1.</span> 安裝系統</h3>
+<div id="outline-container-org1212a9d" class="outline-3">
+<h3 id="org1212a9d"><span class="section-number-3">2.1.</span> 安裝系統</h3>
 <div class="outline-text-3" id="text-2-1">
 </div>
-<div id="outline-container-orgb865ac8" class="outline-4">
-<h4 id="orgb865ac8"><span class="section-number-4">2.1.1.</span> Installing MariaDB on ALL Nodes</h4>
+<div id="outline-container-orgdb8ffd5" class="outline-4">
+<h4 id="orgdb8ffd5"><span class="section-number-4">2.1.1.</span> Installing MariaDB on ALL Nodes</h4>
 <div class="outline-text-4" id="text-2-1-1">
 <div class="org-src-container">
-<pre class="src src-shell">sudo apt install mariadb-server -y
-sudo systemctl start mariadb
-sudo mysql_secure_installation
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> apt install mariadb-server -y
+<span style="color: #ECBE7B;">sudo</span> systemctl start mariadb
+<span style="color: #ECBE7B;">sudo</span> mysql_secure_installation
 </pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgb78701a" class="outline-3">
-<h3 id="orgb78701a"><span class="section-number-3">2.2.</span> 設定50-server.cnf</h3>
+<div id="outline-container-org8691828" class="outline-3">
+<h3 id="org8691828"><span class="section-number-3">2.2.</span> 設定50-server.cnf</h3>
 <div class="outline-text-3" id="text-2-2">
 <div class="org-src-container">
-<pre class="src src-shell">sudo emacs /etc/mysql/mariadb.conf.d/50-server.cnf
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> emacs /etc/mysql/mariadb.conf.d/50-server.cnf
 </pre>
 </div>
 <p>
-Comment the bind line on the file /etc/mysql/mariadb.conf.d/50-server.cnf which binds MariaDB service to 127.0.0.1<br />
+Comment the bind line on the file /etc/mysql/mariadb.conf.d/50-server.cnf which binds MariaDB service to 127.0.0.1
 </p>
 <div class="org-src-container">
 <pre class="src src-shell"><span style="color: #5B6268;"># </span><span style="color: #5B6268;">Instead of skip-networking the default is now to listen only on</span>
-<span style="color: #5B6268;">## </span><span style="color: #5B6268;">localhost which is more compatible and is not less secure.</span>
+<span style="color: #5B6268;">## </span><span style="color: #5B6268;">localhost which is more compatible and is not </span><span style="color: #5B6268;">less</span><span style="color: #5B6268;"> secure.</span>
 <span style="color: #5B6268;">#</span><span style="color: #5B6268;">bind-address            = 127.0.0.1</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org7405091" class="outline-3">
-<h3 id="org7405091"><span class="section-number-3">2.3.</span> 設定galera.cnf</h3>
+<div id="outline-container-org1a296da" class="outline-3">
+<h3 id="org1a296da"><span class="section-number-3">2.3.</span> 設定galera.cnf</h3>
 <div class="outline-text-3" id="text-2-3">
 <ol class="org-ol">
 <li><p>
-Configuring the <b>First</b> Node<br />
+Configuring the <b>First</b> Node
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">sudo emacs /etc/mysql/conf.d/galera.cnf
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> emacs /etc/mysql/conf.d/galera.cnf
 </pre>
 </div>
 <div class="org-src-container">
-<pre class="src src-shell">[mysqld]
+<pre class="src src-shell"><span style="color: #51afef;">[</span>mysqld<span style="color: #51afef;">]</span>
 <span style="color: #dcaeea;">binlog_format</span>=ROW
 default-storage-engine=innodb
 <span style="color: #dcaeea;">innodb_autoinc_lock_mode</span>=<span style="color: #da8548; font-weight: bold;">2</span>
@@ -397,14 +383,14 @@ default-storage-engine=innodb
 </pre>
 </div></li>
 <li><p>
-Configuring the <b>Second</b> Node<br />
+Configuring the <b>Second</b> Node
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">sudo emacs /etc/mysql/conf.d/galera.cnf
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> emacs /etc/mysql/conf.d/galera.cnf
 </pre>
 </div>
 <div class="org-src-container">
-<pre class="src src-shell">[mysqld]
+<pre class="src src-shell"><span style="color: #51afef;">[</span>mysqld<span style="color: #51afef;">]</span>
 <span style="color: #dcaeea;">binlog_format</span>=ROW
 default-storage-engine=innodb
 <span style="color: #dcaeea;">innodb_autoinc_lock_mode</span>=<span style="color: #da8548; font-weight: bold;">2</span>
@@ -429,53 +415,53 @@ default-storage-engine=innodb
 <span style="color: #dcaeea;">wsrep_node_name</span>=<span style="color: #98be65;">"TNFSH_DB02"</span>
 </pre>
 </div></li>
-<li>Starting the Galera Cluster<br />
+<li>Starting the Galera Cluster
 <ol class="org-ol">
 <li><p>
-Stop MariaDB on ALL Nodes and make sure MariaDB service is stopped<br />
+Stop MariaDB on ALL Nodes and make sure MariaDB service is stopped
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">sudo systemctl stop mariadb
-sudo systemctl status mariadb
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> systemctl stop mariadb
+<span style="color: #ECBE7B;">sudo</span> systemctl status mariadb
 </pre>
 </div></li>
 <li><p>
-Start the <b>First</b> Node<br />
+Start the <b>First</b> Node
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">sudo galera_new_cluster
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> galera_new_cluster
 </pre>
 </div></li>
 <li><p>
-Make sure the cluster status<br />
-</p>
-<div class="org-src-container">
-<pre class="src src-shell">mysql -u root -p -e <span style="color: #98be65;">"SHOW STATUS LIKE 'wsrep_cluster_size'"</span>
-</pre>
-</div></li>
-<li><p>
-Start the <b>Second</b> Node<br />
-</p>
-<div class="org-src-container">
-<pre class="src src-shell">sudo systemctl start mariadb
-</pre>
-</div></li>
-<li><p>
-Make sure the cluster status<br />
+Make sure the cluster status
 </p>
 <div class="org-src-container">
 <pre class="src src-shell">mysql -u root -p -e <span style="color: #98be65;">"SHOW STATUS LIKE 'wsrep_cluster_size'"</span>
 </pre>
 </div></li>
 <li><p>
-Start the <b>Third</b> Node<br />
+Start the <b>Second</b> Node
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">sudo systemctl start mariadb
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> systemctl start mariadb
 </pre>
 </div></li>
 <li><p>
-Make sure the cluster status<br />
+Make sure the cluster status
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">mysql -u root -p -e <span style="color: #98be65;">"SHOW STATUS LIKE 'wsrep_cluster_size'"</span>
+</pre>
+</div></li>
+<li><p>
+Start the <b>Third</b> Node
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> systemctl start mariadb
+</pre>
+</div></li>
+<li><p>
+Make sure the cluster status
 </p>
 <div class="org-src-container">
 <pre class="src src-shell">mysql -u root -pilov1tnfsh -e <span style="color: #98be65;">"SHOW STATUS LIKE 'wsrep_cluster_size'"</span>
@@ -485,12 +471,12 @@ Make sure the cluster status<br />
 </ol>
 </div>
 </div>
-<div id="outline-container-org941ade6" class="outline-3">
-<h3 id="org941ade6"><span class="section-number-3">2.4.</span> 驗證Verify Replication</h3>
+<div id="outline-container-org3b27183" class="outline-3">
+<h3 id="org3b27183"><span class="section-number-3">2.4.</span> 驗證Verify Replication</h3>
 <div class="outline-text-3" id="text-2-4">
 <ol class="org-ol">
 <li><p>
-Create a Database and Table on the First Node<br />
+Create a Database and Table on the First Node
 </p>
 <div class="org-src-container">
 <pre class="src src-shell">mysql -u root -p
@@ -498,24 +484,24 @@ CREATE DATABASE classdb;
 </pre>
 </div></li>
 <li><p>
-Create a table named students<br />
+Create a table named students
 </p>
 <div class="org-src-container">
 <pre class="src src-shell">USE classdb;
-CREATE TABLE students (id int, name varchar(<span style="color: #da8548; font-weight: bold;">20</span>), surname varchar(<span style="color: #da8548; font-weight: bold;">20</span>));
+CREATE TABLE students <span style="color: #51afef;">(</span>id int, name varchar<span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">20</span><span style="color: #c678dd;">)</span>, surname varchar<span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">20</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>;
 </pre>
 </div></li>
 <li><p>
-Insert some data into studetns table:<br />
+Insert some data into studetns table:
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">INSERT INTO students VALUES (1,<span style="color: #98be65;">"&#37101;&#23567;&#22914;"</span>,<span style="color: #98be65;">"Ruby"</span>);
-INSERT INTO students VALUES (2,<span style="color: #98be65;">"&#38991;&#23567;&#21746;"</span>,<span style="color: #98be65;">"James"</span>);
-INSERT INTO students VALUES (3,<span style="color: #98be65;">"&#38991;&#23567;&#24070;"</span>,<span style="color: #98be65;">"Vanessa"</span>);
+<pre class="src src-shell">INSERT INTO students VALUES <span style="color: #51afef;">(</span>1,<span style="color: #98be65;">"&#37101;&#23567;&#22914;"</span>,<span style="color: #98be65;">"Ruby"</span><span style="color: #51afef;">)</span>;
+INSERT INTO students VALUES <span style="color: #51afef;">(</span>2,<span style="color: #98be65;">"&#38991;&#23567;&#21746;"</span>,<span style="color: #98be65;">"James"</span><span style="color: #51afef;">)</span>;
+INSERT INTO students VALUES <span style="color: #51afef;">(</span>3,<span style="color: #98be65;">"&#38991;&#23567;&#24070;"</span>,<span style="color: #98be65;">"Vanessa"</span><span style="color: #51afef;">)</span>;
 </pre>
 </div></li>
 <li><p>
-Verify the inserted data with the following command:<br />
+Verify the inserted data with the following command:
 </p>
 <div class="org-src-container">
 <pre class="src src-shell">SELECT * FROM students;
@@ -524,7 +510,7 @@ Verify the inserted data with the following command:<br />
 </ol>
 <ol class="org-ol">
 <li><p>
-Verify Replication on the Second and Third Node<br />
+Verify Replication on the Second and Third Node
 </p>
 <div class="org-src-container">
 <pre class="src src-shell">mysql -u root -p
@@ -534,41 +520,41 @@ SELECT * FROM students;
 </pre>
 </div>
 <p>
-Insert some data on <b>Second</b> Node<br />
+Insert some data on <b>Second</b> Node
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">INSERT INTO students VALUES (4,<span style="color: #98be65;">"&#38991;&#23567;&#36914;"</span>,<span style="color: #98be65;">"Letranger"</span>);
+<pre class="src src-shell">INSERT INTO students VALUES <span style="color: #51afef;">(</span>4,<span style="color: #98be65;">"&#38991;&#23567;&#36914;"</span>,<span style="color: #98be65;">"Letranger"</span><span style="color: #51afef;">)</span>;
 </pre>
 </div>
 <p>
-Verify on other nodes<br />
+Verify on other nodes
 </p></li>
 </ol>
 </div>
 </div>
 </div>
-<div id="outline-container-orge89a313" class="outline-2">
-<h2 id="orge89a313"><span class="section-number-2">3.</span> MariaDB Galera問題處理</h2>
+<div id="outline-container-orgba9137c" class="outline-2">
+<h2 id="orgba9137c"><span class="section-number-2">3.</span> MariaDB Galera問題處理</h2>
 <div class="outline-text-2" id="text-3">
 <ul class="org-ul">
-<li><a href="https://www.cnblogs.com/nulige/articles/8470001.html">問題處理 </a>太好了<br /></li>
-<li><a href="https://mariadb.com/kb/en/getting-started-with-mariadb-galera-cluster/">Getting Started with MariaDB Galera Cluster</a><br /></li>
+<li><a href="https://www.cnblogs.com/nulige/articles/8470001.html">問題處理 </a>太好了</li>
+<li><a href="https://mariadb.com/kb/en/getting-started-with-mariadb-galera-cluster/">Getting Started with MariaDB Galera Cluster</a></li>
 </ul>
 </div>
-<div id="outline-container-org1e70ead" class="outline-3">
-<h3 id="org1e70ead"><span class="section-number-3">3.1.</span> 重新啟動後,其他node無法join</h3>
+<div id="outline-container-org494c7d3" class="outline-3">
+<h3 id="org494c7d3"><span class="section-number-3">3.1.</span> 重新啟動後,其他node無法join</h3>
 <div class="outline-text-3" id="text-3-1">
 <ul class="org-ul">
-<li>正常第一次启动集群，使用命令：galera_new_cluster<br /></li>
+<li>正常第一次启动集群，使用命令：galera_new_cluster</li>
 <li><p>
-整個集群關閉後，再重新啟動，則打開任一主機，輸入命令：<br />
+整個集群關閉後，再重新啟動，則打開任一主機，輸入命令：
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">sudo emacs /var/lib/mysql/grastate.dat
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> emacs /var/lib/mysql/grastate.dat
 </pre>
 </div>
 <p>
-將seqno改為1<br />
+將seqno改為1
 </p>
 <div class="org-src-container">
 <pre class="src src-shell"><span style="color: #5B6268;">#</span><span style="color: #5B6268;">GALERA savedd state</span>
@@ -579,30 +565,30 @@ safe_to_bootstrap:0
 </pre>
 </div>
 <p>
-啟動 galera_new_cluster，這是master<br />
-其他node則用systemctl start mariadb啟動<br />
+啟動 galera_new_cluster，這是master
+其他node則用systemctl start mariadb啟動
 </p></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org2e75610" class="outline-3">
-<h3 id="org2e75610"><span class="section-number-3">3.2.</span> master無法galera_new_cluster</h3>
+<div id="outline-container-org5b8e335" class="outline-3">
+<h3 id="org5b8e335"><span class="section-number-3">3.2.</span> master無法galera_new_cluster</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
-狀況:<br />
+狀況:
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">[db1]# galera_new_cluster
+<pre class="src src-shell"><span style="color: #51afef;">[</span>db1<span style="color: #51afef;">]</span># galera_new_cluster
 Job for mariadb.service failed because the control process exited with error code.
 See <span style="color: #98be65;">"systemctl status mariadb.service"</span> and <span style="color: #98be65;">"journalctl -xe"</span> for details.
 </pre>
 </div>
 <div class="org-src-container">
-<pre class="src src-shell">sudo emacs /var/lib/mysql/grastate.dat
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> emacs /var/lib/mysql/grastate.dat
 </pre>
 </div>
 <p>
-將safe_to_bootstrap改為1<br />
+將safe_to_bootstrap改為1
 </p>
 <div class="org-src-container">
 <pre class="src src-shell"><span style="color: #5B6268;">#</span><span style="color: #5B6268;">GALERA savedd state</span>
@@ -615,65 +601,65 @@ safe_to_bootstrap:0
 </div>
 </div>
 </div>
-<div id="outline-container-org5b14993" class="outline-2">
-<h2 id="org5b14993"><span class="section-number-2">4.</span> 移除MariaDB</h2>
+<div id="outline-container-org06119ff" class="outline-2">
+<h2 id="org06119ff"><span class="section-number-2">4.</span> 移除MariaDB</h2>
 <div class="outline-text-2" id="text-4">
 <div class="org-src-container">
-<pre class="src src-shell">sudo systemctl stop mariadb
-sudo apt remove <span style="color: #98be65;">'mariadb*'</span> -y
-sudo apt purge <span style="color: #98be65;">'mariadb*'</span> -y
-sudo apt remove <span style="color: #98be65;">'mysql*'</span> -y
-sudo apt purge <span style="color: #98be65;">'mysql*'</span> -y
-sudo apt autoremove -y
-sudo apt autoclean -y
-sudo apt update -y
-sudo apt upgrade -y
-sudo apt autoremove
-sudo apt-get --fix-broken install
-sudo rm -rf /etc/mysql /var/lib/mysql
-sudo reboot
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> systemctl stop mariadb
+<span style="color: #ECBE7B;">sudo</span> apt remove <span style="color: #98be65;">'mariadb*'</span> -y
+<span style="color: #ECBE7B;">sudo</span> apt purge <span style="color: #98be65;">'mariadb*'</span> -y
+<span style="color: #ECBE7B;">sudo</span> apt remove <span style="color: #98be65;">'mysql*'</span> -y
+<span style="color: #ECBE7B;">sudo</span> apt purge <span style="color: #98be65;">'mysql*'</span> -y
+<span style="color: #ECBE7B;">sudo</span> apt autoremove -y
+<span style="color: #ECBE7B;">sudo</span> apt autoclean -y
+<span style="color: #ECBE7B;">sudo</span> apt update -y
+<span style="color: #ECBE7B;">sudo</span> apt upgrade -y
+<span style="color: #ECBE7B;">sudo</span> apt autoremove
+<span style="color: #ECBE7B;">sudo</span> apt-get --fix-broken install
+<span style="color: #ECBE7B;">sudo</span> <span style="color: #ECBE7B;">rm</span> -rf /etc/mysql /var/lib/mysql
+<span style="color: #ECBE7B;">sudo</span> reboot
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org4cdb21b" class="outline-2">
-<h2 id="org4cdb21b"><span class="section-number-2">5.</span> 架設haproxy</h2>
+<div id="outline-container-org236f014" class="outline-2">
+<h2 id="org236f014"><span class="section-number-2">5.</span> 架設haproxy</h2>
 <div class="outline-text-2" id="text-5">
 <ul class="org-ul">
-<li><a href="https://gary840227.medium.com/mariadb-cluster-f7220e9eaac8">如何建置 MariaDb Galera Cluster</a><br /></li>
+<li><a href="https://gary840227.medium.com/mariadb-cluster-f7220e9eaac8">如何建置 MariaDb Galera Cluster</a></li>
 </ul>
 </div>
-<div id="outline-container-orgef3ccb9" class="outline-3">
-<h3 id="orgef3ccb9"><span class="section-number-3">5.1.</span> 移除</h3>
+<div id="outline-container-org825d4a2" class="outline-3">
+<h3 id="org825d4a2"><span class="section-number-3">5.1.</span> 移除</h3>
 <div class="outline-text-3" id="text-5-1">
 <div class="org-src-container">
-<pre class="src src-shell">sudo apt remove haproxy -y
-sudo apt purge haproxy -y
-sudo apt autoclean -y
-sudo apt autoremove -y
-sudo rm -rf /etc/haproxy
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> apt remove haproxy -y
+<span style="color: #ECBE7B;">sudo</span> apt purge haproxy -y
+<span style="color: #ECBE7B;">sudo</span> apt autoclean -y
+<span style="color: #ECBE7B;">sudo</span> apt autoremove -y
+<span style="color: #ECBE7B;">sudo</span> <span style="color: #ECBE7B;">rm</span> -rf /etc/haproxy
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgb6cdb8d" class="outline-3">
-<h3 id="orgb6cdb8d"><span class="section-number-3">5.2.</span> 安裝</h3>
+<div id="outline-container-org7e35959" class="outline-3">
+<h3 id="org7e35959"><span class="section-number-3">5.2.</span> 安裝</h3>
 <div class="outline-text-3" id="text-5-2">
 <div class="org-src-container">
-<pre class="src src-shell">sudo apt install haproxy -y
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> apt install haproxy -y
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org7007816" class="outline-3">
-<h3 id="org7007816"><span class="section-number-3">5.3.</span> 編輯haproxy.cfg</h3>
+<div id="outline-container-org41b119c" class="outline-3">
+<h3 id="org41b119c"><span class="section-number-3">5.3.</span> 編輯haproxy.cfg</h3>
 <div class="outline-text-3" id="text-5-3">
 <div class="org-src-container">
-<pre class="src src-shell">sudo emacs /etc/haproxy/haproxy.cfg
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> emacs /etc/haproxy/haproxy.cfg
 </pre>
 </div>
 <p>
-內容如下:<br />
+內容如下:
 </p>
 <div class="org-src-container">
 <pre class="src src-shell">global
@@ -735,84 +721,84 @@ listen stats
 </div>
 </div>
 </div>
-<div id="outline-container-org1709b0d" class="outline-3">
-<h3 id="org1709b0d"><span class="section-number-3">5.4.</span> 重啟haproxy</h3>
+<div id="outline-container-org1ea24ac" class="outline-3">
+<h3 id="org1ea24ac"><span class="section-number-3">5.4.</span> 重啟haproxy</h3>
 <div class="outline-text-3" id="text-5-4">
 <div class="org-src-container">
-<pre class="src src-shell">sudo systemctl restart haproxy
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> systemctl restart haproxy
 </pre>
 </div>
 <p>
-觀察 <a href="http://192.168.16.40:9000/stats">http://192.168.16.40:9000/stats</a><br />
-帳密: howtoforge / howtoforge<br />
+觀察 <a href="http://192.168.16.40:9000/stats">http://192.168.16.40:9000/stats</a>
+帳密: howtoforge / howtoforge
 </p>
 </div>
 </div>
-<div id="outline-container-org04216a9" class="outline-3">
-<h3 id="org04216a9"><span class="section-number-3">5.5.</span> 建立mysql-check user</h3>
+<div id="outline-container-orgc090393" class="outline-3">
+<h3 id="orgc090393"><span class="section-number-3">5.5.</span> 建立mysql-check user</h3>
 <div class="outline-text-3" id="text-5-5">
 <p>
-於任一node<br />
+於任一node
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">sudo mysql -u root -pilov1tnfsh
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> mysql -u root -pilov1tnfsh
 create user <span style="color: #98be65;">'haproxy'</span>@<span style="color: #98be65;">'192.168.16.40'</span>; <span style="color: #5B6268;"># </span><span style="color: #5B6268;">&#24115;&#34399;@ip</span>
 flush privileges;
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgdf9ee25" class="outline-3">
-<h3 id="orgdf9ee25"><span class="section-number-3">5.6.</span> 測試</h3>
+<div id="outline-container-org636e556" class="outline-3">
+<h3 id="org636e556"><span class="section-number-3">5.6.</span> 測試</h3>
 <div class="outline-text-3" id="text-5-6">
 <p>
-測試 haproxy 是否將我們導向不同的 mariadb , 我們對每個節點的 mariadb 設定專屬的 server-id<br />
+測試 haproxy 是否將我們導向不同的 mariadb , 我們對每個節點的 mariadb 設定專屬的 server-id
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">sudo mysql -h192.168.16.40 -uroot -pilov1tnfsh -e <span style="color: #98be65;">"SET GLOBAL server_id=161"</span>
-sudo mysql -h192.168.16.40 -uroot -pilov1tnfsh -e <span style="color: #98be65;">"SET GLOBAL server_id=162"</span>
-sudo mysql -h192.168.16.40 -uroot -pilov1tnfsh -e <span style="color: #98be65;">"SET GLOBAL server_id=163"</span>
-sudo mysql -h192.168.16.40 -uroot -pilov1tnfsh -e <span style="color: #98be65;">"SET GLOBAL server_id=164"</span>
-sudo mysql -h192.168.16.40 -uroot -pilov1tnfsh -e <span style="color: #98be65;">"SET GLOBAL server_id=165"</span>
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> mysql -h192.168.16.40 -uroot -pilov1tnfsh -e <span style="color: #98be65;">"SET GLOBAL server_id=161"</span>
+<span style="color: #ECBE7B;">sudo</span> mysql -h192.168.16.40 -uroot -pilov1tnfsh -e <span style="color: #98be65;">"SET GLOBAL server_id=162"</span>
+<span style="color: #ECBE7B;">sudo</span> mysql -h192.168.16.40 -uroot -pilov1tnfsh -e <span style="color: #98be65;">"SET GLOBAL server_id=163"</span>
+<span style="color: #ECBE7B;">sudo</span> mysql -h192.168.16.40 -uroot -pilov1tnfsh -e <span style="color: #98be65;">"SET GLOBAL server_id=164"</span>
+<span style="color: #ECBE7B;">sudo</span> mysql -h192.168.16.40 -uroot -pilov1tnfsh -e <span style="color: #98be65;">"SET GLOBAL server_id=165"</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgf31cc2c" class="outline-3">
-<h3 id="orgf31cc2c"><span class="section-number-3">5.7.</span> 架設Load Balance（HA Proxy）</h3>
+<div id="outline-container-org2f167fc" class="outline-3">
+<h3 id="org2f167fc"><span class="section-number-3">5.7.</span> 架設Load Balance（HA Proxy）</h3>
 <div class="outline-text-3" id="text-5-7">
 <ol class="org-ol">
 <li><p>
-關閉防火牆<br />
+關閉防火牆
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">   sudo ufw disable
-   sudo ufw status
+<pre class="src src-shell">   <span style="color: #ECBE7B;">sudo</span> ufw disable
+   <span style="color: #ECBE7B;">sudo</span> ufw status
 </pre>
 </div></li>
 <li><p>
-安裝HA Proxy<br />
+安裝HA Proxy
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">   sudo apt install haproxy
+<pre class="src src-shell">   <span style="color: #ECBE7B;">sudo</span> apt install haproxy
 </pre>
 </div></li>
-<li>建立與設定clustercheck<br />
+<li>建立與設定clustercheck
 <ol class="org-ol">
 <li><p>
-於MariaDB 所有Nodes下載並設定clustercheck，將檔案放在/usr/bin下，設定可執行權限<br />
+於MariaDB 所有Nodes下載並設定clustercheck，將檔案放在/usr/bin下，設定可執行權限
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">      git clone https://github.com/olafz/percona-clustercheck
-      <span style="color: #c678dd;">cd</span> percona-clustercheck
-      <span style="color: #c678dd;">cd</span> clustercheck
-      chmod <span style="color: #da8548; font-weight: bold;">755</span> clustercheck
-      sudo mv clustercheck /usr/bin
-      ls -al /usr/bin/clustercheck
+<pre class="src src-shell">      <span style="color: #ECBE7B;">git</span> clone https://github.com/olafz/percona-clustercheck
+      <span style="color: #ECBE7B;">cd</span> percona-clustercheck
+      <span style="color: #ECBE7B;">cd</span> clustercheck
+      <span style="color: #ECBE7B;">chmod</span> <span style="color: #da8548; font-weight: bold;">755</span> clustercheck
+      <span style="color: #ECBE7B;">sudo</span> <span style="color: #ECBE7B;">mv</span> clustercheck /usr/bin
+      <span style="color: #ECBE7B;">ls</span> -al /usr/bin/clustercheck
 </pre>
 </div></li>
 <li><p>
-為clustercheck建一組檢查用的mysql帳號<br />
+為clustercheck建一組檢查用的mysql帳號
 </p>
 <div class="org-src-container">
 <pre class="src src-shell">mysql -u root -p
@@ -821,31 +807,31 @@ FLUSH PRIVILEGES;
 </pre>
 </div></li>
 </ol></li>
-<li>於MariaDB所有Nodes安裝與設定xinetd<br />
-讓clustercheck可以透過網路執行<br />
+<li>於MariaDB所有Nodes安裝與設定xinetd
+讓clustercheck可以透過網路執行
 <ol class="org-ol">
 <li><p>
-安裝xinetd<br />
+安裝xinetd
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">      sudo apt install xinetd
+<pre class="src src-shell">      <span style="color: #ECBE7B;">sudo</span> apt install xinetd
 </pre>
 </div></li>
 <li><p>
-設定xinetd<br />
+設定xinetd
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">sudo emacs /etc/xinetd.d/mysqlchk
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> emacs /etc/xinetd.d/mysqlchk
 </pre>
 </div>
 <p>
-內容:<br />
+內容:
 </p>
 <div class="org-src-container">
 <pre class="src src-shell">      <span style="color: #5B6268;"># </span><span style="color: #5B6268;">default: on</span>
       <span style="color: #5B6268;"># </span><span style="color: #5B6268;">description: mysqlchk</span>
       service mysqlchk
-      {
+      <span style="color: #51afef;">{</span>
              <span style="color: #dcaeea;">disable</span> = no
              <span style="color: #dcaeea;">flags</span> = REUSE
              <span style="color: #dcaeea;">socket_type</span> = stream
@@ -856,45 +842,45 @@ FLUSH PRIVILEGES;
              <span style="color: #dcaeea;">log_on_failure</span> += USERID
              <span style="color: #dcaeea;">only_from</span> = 0.0.0.0/0
              <span style="color: #dcaeea;">per_source</span> = UNLIMITED
-      }
+      <span style="color: #51afef;">}</span>
 </pre>
 </div></li>
 <li><p>
-調整services<br />
-在上方中，我們設定了9200來當我們觸發xinetd的Port，所以要在/etc/services裡做一下調整，編輯 /etc/services來調整，取消原本的9200，加入我們新增的mysqlchk<br />
+調整services
+在上方中，我們設定了9200來當我們觸發xinetd的Port，所以要在/etc/services裡做一下調整，編輯 /etc/services來調整，取消原本的9200，加入我們新增的mysqlchk
 </p>
 <div class="org-src-container">
 <pre class="src src-shell">      mysqlchk        9200/tcp                        <span style="color: #5B6268;">#</span><span style="color: #5B6268;">Galera Clustercheck</span>
 </pre>
 </div></li>
 <li><p>
-啟動xinetd<br />
+啟動xinetd
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">      sudo /etc/init.d/xinetd start
+<pre class="src src-shell">      <span style="color: #ECBE7B;">sudo</span> /etc/init.d/xinetd start
 </pre>
 </div></li>
 <li><p>
-設定xinetd重啟動後自動啟動<br />
+設定xinetd重啟動後自動啟動
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">      sudo pdate-rc.d xinetd defaults
+<pre class="src src-shell">      <span style="color: #ECBE7B;">sudo</span> pdate-rc.d xinetd defaults
 </pre>
 </div>
 <p>
-server TNFSH_DB03 192.168.16.43:3306 check port 9200 weight 1<br />
-server TNFSH_DB04 192.168.16.44:3306 check port 9200 weight 1<br />
-server TNFSH_DB05 192.168.16.45:3306 check port 9200 weight 1<br />
+server TNFSH_DB03 192.168.16.43:3306 check port 9200 weight 1
+server TNFSH_DB04 192.168.16.44:3306 check port 9200 weight 1
+server TNFSH_DB05 192.168.16.45:3306 check port 9200 weight 1
 </p></li>
 <li><p>
-測試<br />
+測試
 </p>
 <div class="org-src-container">
 <pre class="src src-shell">      telnet localhost <span style="color: #da8548; font-weight: bold;">9200</span>
 </pre>
 </div>
 <p>
-結果<br />
+結果
 </p>
 <div class="org-src-container">
 <pre class="src src-shell">      Trying 127.0.0.1...
@@ -912,28 +898,28 @@ server TNFSH_DB05 192.168.16.45:3306 check port 9200 weight 1<br />
 </ol></li>
 
 <li><p>
-Install the latest HAProxy using a PPA<br />
+Install the latest HAProxy using a PPA
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">sudo apt install --no-install-recommends software-properties-common
-sudo add-apt-repository ppa:vbernat/haproxy-2.4 -y
-sudo apt install <span style="color: #dcaeea;">haproxy</span>=2.4.<span style="color: #98be65;">\*</span>
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> apt install --no-install-recommends software-properties-common
+<span style="color: #ECBE7B;">sudo</span> add-apt-repository ppa:vbernat/haproxy-2.4 -y
+<span style="color: #ECBE7B;">sudo</span> apt install <span style="color: #dcaeea;">haproxy</span>=2.4.<span style="color: #98be65;">\*</span>
 </pre>
 </div></li>
 <li><p>
-Update and upgrade<br />
+Update and upgrade
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">sudo apt update
-sudo apt upgrade -y
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> apt update
+<span style="color: #ECBE7B;">sudo</span> apt upgrade -y
 </pre>
 </div></li>
-<li>設定HA Proxy<br />
+<li>設定HA Proxy
 <ol class="org-ol">
-<li>編輯/etc/haproxy/haproxy.cfg<br /></li>
-<li>刪除原本內容<br /></li>
+<li>編輯/etc/haproxy/haproxy.cfg</li>
+<li>刪除原本內容</li>
 <li><p>
-加入<br />
+加入
 </p>
 <div class="org-src-container">
 <pre class="src src-shell">global
@@ -979,52 +965,52 @@ listen stats 0.0.0.0:9000
 </div></li>
 </ol></li>
 <li><p>
-內容說明<br />
+內容說明
 </p>
 <ol class="org-ol">
-<li>Writer connection（寫入連線）：寫入連線要保持在同一台，也就是說不管有幾台機器連透過「寫入連線」的方式連入時，都要導到同一台機器；不過當機器有問題時，也能夠進行failover，下方大概解釋一下設定。<br />
+<li>Writer connection（寫入連線）：寫入連線要保持在同一台，也就是說不管有幾台機器連透過「寫入連線」的方式連入時，都要導到同一台機器；不過當機器有問題時，也能夠進行failover，下方大概解釋一下設定。
 <ul class="org-ul">
-<li>listen mariadb_cluster_writes 0.0.0.0:13304<br />
-說明：宣告監聽(listen)，名稱為mariadb_cluster_writes，開放任意IP連入13304 Port(0.0.0.0:13304)。<br /></li>
-<li>mode tcp<br />
-說明：使用tcp或http方式連入，這邊設定是tcp。<br /></li>
-<li>option httpchk<br />
-說明：HA Proxy在確認後方的資料庫時，透過HTTP方式來判斷後端是否正常。<br /></li>
-<li>server galera-node01 192.168.43.101:3306 check port 9200<br />
-說明：宣告server，server的暱稱為 galera-node01，實稱上的IP與Port是 192.168.43.101:3306，確認正常與否的Port是9200。<br /></li>
-<li>server galera-node02 192.168.43.102:3306 check port 9200 backup<br />
-說明：基本上與d是一樣的，不過最後多了一個backup，意思是當正常的機器有問題時，才將連線導至這一台server，如果沒有這個backup的話，HA Proxy會實行分流，可能會導到不同的server，請注意。<br /></li>
+<li>listen mariadb_cluster_writes 0.0.0.0:13304
+說明：宣告監聽(listen)，名稱為mariadb_cluster_writes，開放任意IP連入13304 Port(0.0.0.0:13304)。</li>
+<li>mode tcp
+說明：使用tcp或http方式連入，這邊設定是tcp。</li>
+<li>option httpchk
+說明：HA Proxy在確認後方的資料庫時，透過HTTP方式來判斷後端是否正常。</li>
+<li>server galera-node01 192.168.43.101:3306 check port 9200
+說明：宣告server，server的暱稱為 galera-node01，實稱上的IP與Port是 192.168.43.101:3306，確認正常與否的Port是9200。</li>
+<li>server galera-node02 192.168.43.102:3306 check port 9200 backup
+說明：基本上與d是一樣的，不過最後多了一個backup，意思是當正常的機器有問題時，才將連線導至這一台server，如果沒有這個backup的話，HA Proxy會實行分流，可能會導到不同的server，請注意。</li>
 </ul></li>
-<li>Read connection（讀取連線）：讀取時不導到特定一台機器，只是單純實行Load Balance功能，這邊的設定跟讀取的設定有三點不太一樣，說明如下：<br />
+<li>Read connection（讀取連線）：讀取時不導到特定一台機器，只是單純實行Load Balance功能，這邊的設定跟讀取的設定有三點不太一樣，說明如下：
 <ul class="org-ul">
-<li>listen mariadb_cluster_writes 0.0.0.0:13305<br />
-說明：我們在Read connection中設定13305的Port。<br /></li>
-<li>balance leastconn<br />
-說明：分流的方式之一，將使用者導到最少人連線的server。<br /></li>
-<li>server無backup說定<br />
-說明：因為server中無backup的設定，所以會實作分流。<br /></li>
+<li>listen mariadb_cluster_writes 0.0.0.0:13305
+說明：我們在Read connection中設定13305的Port。</li>
+<li>balance leastconn
+說明：分流的方式之一，將使用者導到最少人連線的server。</li>
+<li>server無backup說定
+說明：因為server中無backup的設定，所以會實作分流。</li>
 </ul></li>
-<li>網頁監看：這一個設定只是單純讓使用者在網頁上可以看到MariaDB的狀態。<br />
+<li>網頁監看：這一個設定只是單純讓使用者在網頁上可以看到MariaDB的狀態。
 <ul class="org-ul">
-<li>listen stats 0.0.0.0:9000<br />
-說明：宣告監聽(listen)，名稱為stats ，開放任意IP連入9000 Port(0.0.0.0:9000)。<br /></li>
-<li>mode http<br />
-說明：使用tcp或http方式連入，這邊設定是http。<br /></li>
-<li>stats enable<br />
-說明：設定狀態為啟用。<br /></li>
-<li>stats uri /haproxy_status<br />
-說明：設定HTTP的URL，所以我們等一下要連入的網址是<a href="http://ip:9000/haproxy_status">http://ip:9000/haproxy_status</a>。<br /></li>
-<li>stats realm HAProxy\ Statistics<br />
-說明：設定使用者連線時，在輸入帳號密碼的視窗標題，通常會搭配下方的stats auth設定使用。<br /></li>
-<li>stats auth haproxy:haproxy<br />
-說明：設定使用者連線時的帳號密碼。<br /></li>
-<li>stats admin if TRUE<br />
-說明：設定使用者連線後的角色為管理員角色；管理員與一般使用者的差別在於－管理員角色有權限在網頁上針對HA Proxy上管理的伺服器做一些動作。<br /></li>
+<li>listen stats 0.0.0.0:9000
+說明：宣告監聽(listen)，名稱為stats ，開放任意IP連入9000 Port(0.0.0.0:9000)。</li>
+<li>mode http
+說明：使用tcp或http方式連入，這邊設定是http。</li>
+<li>stats enable
+說明：設定狀態為啟用。</li>
+<li>stats uri /haproxy_status
+說明：設定HTTP的URL，所以我們等一下要連入的網址是<a href="http://ip:9000/haproxy_status">http://ip:9000/haproxy_status</a>。</li>
+<li>stats realm HAProxy\ Statistics
+說明：設定使用者連線時，在輸入帳號密碼的視窗標題，通常會搭配下方的stats auth設定使用。</li>
+<li>stats auth haproxy:haproxy
+說明：設定使用者連線時的帳號密碼。</li>
+<li>stats admin if TRUE
+說明：設定使用者連線後的角色為管理員角色；管理員與一般使用者的差別在於－管理員角色有權限在網頁上針對HA Proxy上管理的伺服器做一些動作。</li>
 </ul></li>
 </ol>
 <ol class="org-ol">
 <li><p>
-啟動與測試HA Proxy<br />
+啟動與測試HA Proxy
 </p>
 <div class="org-src-container">
 <pre class="src src-shell">service haproxy start
@@ -1035,242 +1021,242 @@ listen stats 0.0.0.0:9000
 </div>
 </div>
 </div>
-<div id="outline-container-orgeb84eb6" class="outline-2">
-<h2 id="orgeb84eb6"><span class="section-number-2">6.</span> 監測haproxy</h2>
+<div id="outline-container-orgf4a918f" class="outline-2">
+<h2 id="orgf4a918f"><span class="section-number-2">6.</span> 監測haproxy</h2>
 <div class="outline-text-2" id="text-6">
 </div>
-<div id="outline-container-org4d3cbaa" class="outline-3">
-<h3 id="org4d3cbaa"><span class="section-number-3">6.1.</span> references</h3>
+<div id="outline-container-org0f1e1e0" class="outline-3">
+<h3 id="org0f1e1e0"><span class="section-number-3">6.1.</span> references</h3>
 <div class="outline-text-3" id="text-6-1">
 <ul class="org-ul">
-<li><a href="https://codertw.com/%E4%BC%BA%E6%9C%8D%E5%99%A8/144308/">使用Prometheus Grafana監控MySQL實踐</a><br /></li>
-<li><a href="https://www.gushiciku.cn/pl/p9ZR/zh-tw">Prometheus+Grafana 基礎及簡單搭建</a><br /></li>
-<li><a href="https://www.lisenet.com/2021/monitor-haproxy-with-grafana-and-prometheus-haproxy_exporter/">Monitor HAProxy with Grafana and Prometheus (haproxy_exporter)</a><br /></li>
-<li><a href="https://ithelp.ithome.com.tw/articles/10209805">[Day 30] Prometheus &amp; Intermission </a><br /></li>
+<li><a href="https://codertw.com/%E4%BC%BA%E6%9C%8D%E5%99%A8/144308/">使用Prometheus Grafana監控MySQL實踐</a></li>
+<li><a href="https://www.gushiciku.cn/pl/p9ZR/zh-tw">Prometheus+Grafana 基礎及簡單搭建</a></li>
+<li><a href="https://www.lisenet.com/2021/monitor-haproxy-with-grafana-and-prometheus-haproxy_exporter/">Monitor HAProxy with Grafana and Prometheus (haproxy_exporter)</a></li>
+<li><a href="https://ithelp.ithome.com.tw/articles/10209805">[Day 30] Prometheus &amp; Intermission </a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org15869b2" class="outline-3">
-<h3 id="org15869b2"><span class="section-number-3">6.2.</span> 大量加入mysql資料</h3>
+<div id="outline-container-orga550175" class="outline-3">
+<h3 id="orga550175"><span class="section-number-3">6.2.</span> 大量加入mysql資料</h3>
 <div class="outline-text-3" id="text-6-2">
 <div class="org-src-container">
 <pre class="src src-shell">CREATE TABLE <span style="color: #51afef; font-weight: bold;">`data3`</span>
-(
-  <span style="color: #51afef; font-weight: bold;">`id`</span>         bigint(<span style="color: #da8548; font-weight: bold;">20</span>) NOT NULL      AUTO_INCREMENT,
+<span style="color: #51afef;">(</span>
+  <span style="color: #51afef; font-weight: bold;">`id`</span>         bigint<span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">20</span><span style="color: #c678dd;">)</span> NOT NULL      AUTO_INCREMENT,
   <span style="color: #51afef; font-weight: bold;">`datetime`</span>   timestamp  NULL          DEFAULT CURRENT_TIMESTAMP,
-  <span style="color: #51afef; font-weight: bold;">`channel`</span>    int(<span style="color: #da8548; font-weight: bold;">11</span>)                  DEFAULT NULL,
+  <span style="color: #51afef; font-weight: bold;">`channel`</span>    int<span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">11</span><span style="color: #c678dd;">)</span>                  DEFAULT NULL,
   <span style="color: #51afef; font-weight: bold;">`value`</span>      float                    DEFAULT NULL,
 
-  PRIMARY KEY (<span style="color: #51afef; font-weight: bold;">`id`</span>)
-);
+  PRIMARY KEY <span style="color: #c678dd;">(</span><span style="color: #51afef; font-weight: bold;">`id`</span><span style="color: #c678dd;">)</span>
+<span style="color: #51afef;">)</span>;
 
 
 DELIMITER $<span style="color: #dcaeea;">$</span>
-CREATE PROCEDURE generate_data3()
+CREATE PROCEDURE generate_data3<span style="color: #51afef;">()</span>
 BEGIN
   DECLARE i INT DEFAULT <span style="color: #da8548; font-weight: bold;">0</span>;
   WHILE i &lt; <span style="color: #da8548; font-weight: bold;">500000</span> DO
-    INSERT INTO <span style="color: #51afef; font-weight: bold;">`data3`</span> (<span style="color: #51afef; font-weight: bold;">`datetime`</span>,<span style="color: #51afef; font-weight: bold;">`value`</span>,<span style="color: #51afef; font-weight: bold;">`channel`</span>) VALUES (
-      FROM_UNIXTIME(UNIX_TIMESTAMP(<span style="color: #98be65;">'2014-01-01 01:00:00'</span>)+FLOOR(RAND()*31536000)),
-      ROUND(RAND()*100,2),
+    INSERT INTO <span style="color: #51afef; font-weight: bold;">`data3`</span> <span style="color: #51afef;">(</span><span style="color: #51afef; font-weight: bold;">`datetime`</span>,<span style="color: #51afef; font-weight: bold;">`value`</span>,<span style="color: #51afef; font-weight: bold;">`channel`</span><span style="color: #51afef;">)</span> VALUES <span style="color: #51afef;">(</span>
+      FROM_UNIXTIME<span style="color: #c678dd;">(</span>UNIX_TIMESTAMP<span style="color: #98be65;">(</span><span style="color: #98be65;">'2014-01-01 01:00:00'</span><span style="color: #98be65;">)</span>+FLOOR<span style="color: #98be65;">(</span>RAND<span style="color: #a9a1e1;">()</span>*31536000<span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>,
+      ROUND<span style="color: #c678dd;">(</span>RAND<span style="color: #98be65;">()</span>*100,2<span style="color: #c678dd;">)</span>,
       <span style="color: #da8548; font-weight: bold;">1</span>
-    );
+    <span style="color: #51afef;">)</span>;
     SET <span style="color: #dcaeea;">i</span> = i + <span style="color: #da8548; font-weight: bold;">1</span>;
   END WHILE;
 END$<span style="color: #dcaeea;">$</span>
 DELIMITER ;
 
-CALL generate_data3();
+CALL generate_data3<span style="color: #51afef;">()</span>;
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org5e1e1c8" class="outline-3">
-<h3 id="org5e1e1c8"><span class="section-number-3">6.3.</span> 被監控端</h3>
+<div id="outline-container-orgb41c5b4" class="outline-3">
+<h3 id="orgb41c5b4"><span class="section-number-3">6.3.</span> 被監控端</h3>
 <div class="outline-text-3" id="text-6-3">
 <ol class="org-ol">
-<li>install go<br /></li>
-<li>download node_exporter<br /></li>
-<li>解壓至/usr/local<br /></li>
-<li>執行node_exporter<br /></li>
-<li>download mysqld_exporter<br /></li>
-<li>解壓至/usr/local<br /></li>
-<li>編輯.my.cnf<br /></li>
-<li>執行mysqld_exporter<br /></li>
+<li>install go</li>
+<li>download node_exporter</li>
+<li>解壓至/usr/local</li>
+<li>執行node_exporter</li>
+<li>download mysqld_exporter</li>
+<li>解壓至/usr/local</li>
+<li>編輯.my.cnf</li>
+<li>執行mysqld_exporter</li>
 </ol>
 <div class="org-src-container">
-<pre class="src src-shell">[client]
+<pre class="src src-shell"><span style="color: #51afef;">[</span>client<span style="color: #51afef;">]</span>
 <span style="color: #dcaeea;">user</span>=root
 <span style="color: #dcaeea;">password</span>=ilov1tnfsh
 </pre>
 </div>
 <div class="org-src-container">
-<pre class="src src-shell"><span style="color: #c678dd;">cd</span> ~
-sudo snap install go --classic
+<pre class="src src-shell"><span style="color: #ECBE7B;">cd</span> ~
+<span style="color: #ECBE7B;">sudo</span> snap install go --classic
 wget https://github.com/prometheus/node_exporter/releases/download/v0.14.0/node_exporter-0.14.0.linux-amd64.tar.gz
-sudo  tar xvf node_exporter-0.14.0.linux-amd64.tar.gz -C /usr/local/
+<span style="color: #ECBE7B;">sudo</span>  tar xvf node_exporter-0.14.0.linux-amd64.tar.gz -C /usr/local/
 nohup /usr/local/node_exporter-0.14.0.linux-amd64/node_exporter &amp;
 wget https://github.com/prometheus/mysqld_exporter/releases/download/v0.10.0/mysqld_exporter-0.10.0.linux-amd64.tar.gz
-sudo tar xvf mysqld_exporter-0.10.0.linux-amd64.tar.gz -C /usr/local/
-sudo emacs /usr/local/mysqld_exporter-0.10.0.linux-amd64/.my.cnf
+<span style="color: #ECBE7B;">sudo</span> tar xvf mysqld_exporter-0.10.0.linux-amd64.tar.gz -C /usr/local/
+<span style="color: #ECBE7B;">sudo</span> emacs /usr/local/mysqld_exporter-0.10.0.linux-amd64/.my.cnf
 /usr/local/mysqld_exporter-0.10.0.linux-amd64/mysqld_exporter -config.my-cnf=<span style="color: #98be65;">"/usr/local/mysqld_exporter-0.10.0.linux-amd64/.my.cnf"</span> &amp;
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgc6a06b5" class="outline-3">
-<h3 id="orgc6a06b5"><span class="section-number-3">6.4.</span> 把node_exporter改為service自動執行</h3>
+<div id="outline-container-org37207ab" class="outline-3">
+<h3 id="org37207ab"><span class="section-number-3">6.4.</span> 把node_exporter改為service自動執行</h3>
 <div class="outline-text-3" id="text-6-4">
 <div class="org-src-container">
-<pre class="src src-shell">[Unit]
+<pre class="src src-shell"><span style="color: #51afef;">[</span>Unit<span style="color: #51afef;">]</span>
 <span style="color: #dcaeea;">Description</span>=Prometheus Node Exporter
 <span style="color: #dcaeea;">After</span>=network.target
 <span style="color: #dcaeea;">User</span>=prometheus
 <span style="color: #dcaeea;">Group</span>=prometheus
 
-[Service]
+<span style="color: #51afef;">[</span>Service<span style="color: #51afef;">]</span>
 <span style="color: #dcaeea;">Type</span>=simple
 <span style="color: #dcaeea;">Restart</span>=always
 <span style="color: #dcaeea;">ExecStart</span>=nohup /usr/local/node_exporter-0.14.0.linux-amd64/node_exporter &amp;
 
-[Install]
+<span style="color: #51afef;">[</span>Install<span style="color: #51afef;">]</span>
 <span style="color: #dcaeea;">WantedBy</span>=multi-user.target
 
 </pre>
 </div>
 <div class="org-src-container">
-<pre class="src src-shell">sudo emacs /etc/systemd/system/node_exporter.service
-sudo systemctl daemon-reload
-sudo systemctl enable node_exporter
-sudo systemctl start node_exporter
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> emacs /etc/systemd/system/node_exporter.service
+<span style="color: #ECBE7B;">sudo</span> systemctl daemon-reload
+<span style="color: #ECBE7B;">sudo</span> systemctl enable node_exporter
+<span style="color: #ECBE7B;">sudo</span> systemctl start node_exporter
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orge69a9be" class="outline-3">
-<h3 id="orge69a9be"><span class="section-number-3">6.5.</span> 把mysqld_exporter改為service自動執行</h3>
+<div id="outline-container-org0314086" class="outline-3">
+<h3 id="org0314086"><span class="section-number-3">6.5.</span> 把mysqld_exporter改為service自動執行</h3>
 <div class="outline-text-3" id="text-6-5">
 <p>
-<a href="https://computingforgeeks.com/install-and-configure-prometheus-mysql-exporter-on-ubuntu-centos/">https://computingforgeeks.com/install-and-configure-prometheus-mysql-exporter-on-ubuntu-centos/</a><br />
-mysql_exporter.service<br />
+<a href="https://computingforgeeks.com/install-and-configure-prometheus-mysql-exporter-on-ubuntu-centos/">https://computingforgeeks.com/install-and-configure-prometheus-mysql-exporter-on-ubuntu-centos/</a>
+mysql_exporter.service
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">[Unit]
+<pre class="src src-shell"><span style="color: #51afef;">[</span>Unit<span style="color: #51afef;">]</span>
 <span style="color: #dcaeea;">Description</span>=Prometheus MySQL Exporter
 <span style="color: #dcaeea;">After</span>=network.target
 <span style="color: #dcaeea;">User</span>=prometheus
 <span style="color: #dcaeea;">Group</span>=prometheus
 
-[Service]
+<span style="color: #51afef;">[</span>Service<span style="color: #51afef;">]</span>
 <span style="color: #dcaeea;">Type</span>=simple
 <span style="color: #dcaeea;">Restart</span>=always
 <span style="color: #dcaeea;">ExecStart</span>=/usr/local/mysqld_exporter-0.10.0.linux-amd64/mysqld_exporter -config.my-cnf=<span style="color: #98be65;">"/usr/local/mysqld_exporter-0.10.0.linux-amd64/.my.cnf"</span>
 
-[Install]
+<span style="color: #51afef;">[</span>Install<span style="color: #51afef;">]</span>
 <span style="color: #dcaeea;">WantedBy</span>=multi-user.target
 
 </pre>
 </div>
 <div class="org-src-container">
-<pre class="src src-shell">sudo emacs /etc/systemd/system/mysqld_exporter.service
-sudo systemctl daemon-reload
-sudo systemctl enable mysqld_exporter
-sudo systemctl start mysqld_exporter
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> emacs /etc/systemd/system/mysqld_exporter.service
+<span style="color: #ECBE7B;">sudo</span> systemctl daemon-reload
+<span style="color: #ECBE7B;">sudo</span> systemctl enable mysqld_exporter
+<span style="color: #ECBE7B;">sudo</span> systemctl start mysqld_exporter
 </pre>
 </div>
 <p>
-安泰 112 2 5 綁約日期<br />
-409922  剩餘本金<br />
-2.45    目前利率<br />
-8000    違約金<br />
-月付金不超過2倍，一個月可以還，<br />
+安泰 112 2 5 綁約日期
+409922  剩餘本金
+2.45    目前利率
+8000    違約金
+月付金不超過2倍，一個月可以還，
 </p>
 
 <p>
-富邦的每月還款是由台新自動扣款，不要匯到富邦，匯到台新去扣<br />
+富邦的每月還款是由台新自動扣款，不要匯到富邦，匯到台新去扣
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org3d30ce8" class="outline-2">
-<h2 id="org3d30ce8"><span class="section-number-2">7.</span> Prometheus</h2>
+<div id="outline-container-org384cef6" class="outline-2">
+<h2 id="org384cef6"><span class="section-number-2">7.</span> Prometheus</h2>
 <div class="outline-text-2" id="text-7">
 </div>
-<div id="outline-container-org94b1b7d" class="outline-3">
-<h3 id="org94b1b7d"><span class="section-number-3">7.1.</span> 把node_exporter改為service自動執行</h3>
+<div id="outline-container-orgb4f09e9" class="outline-3">
+<h3 id="orgb4f09e9"><span class="section-number-3">7.1.</span> 把node_exporter改為service自動執行</h3>
 <div class="outline-text-3" id="text-7-1">
 <div class="org-src-container">
-<pre class="src src-shell">[Unit]
+<pre class="src src-shell"><span style="color: #51afef;">[</span>Unit<span style="color: #51afef;">]</span>
 <span style="color: #dcaeea;">Description</span>=Prometheus Node Exporter
 <span style="color: #dcaeea;">After</span>=network.target
 <span style="color: #dcaeea;">User</span>=prometheus
 <span style="color: #dcaeea;">Group</span>=prometheus
 
-[Service]
+<span style="color: #51afef;">[</span>Service<span style="color: #51afef;">]</span>
 <span style="color: #dcaeea;">Type</span>=simple
 <span style="color: #dcaeea;">Restart</span>=always
 <span style="color: #dcaeea;">ExecStart</span>=nohup /usr/local/node_exporter-0.14.0.linux-amd64/node_exporter &amp;
 
-[Install]
+<span style="color: #51afef;">[</span>Install<span style="color: #51afef;">]</span>
 <span style="color: #dcaeea;">WantedBy</span>=multi-user.target
 
 </pre>
 </div>
 <div class="org-src-container">
-<pre class="src src-shell">sudo emacs /etc/systemd/system/node_exporter.service
-sudo systemctl daemon-reload
-sudo systemctl enable node_exporter
-sudo systemctl start node_exporter
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> emacs /etc/systemd/system/node_exporter.service
+<span style="color: #ECBE7B;">sudo</span> systemctl daemon-reload
+<span style="color: #ECBE7B;">sudo</span> systemctl enable node_exporter
+<span style="color: #ECBE7B;">sudo</span> systemctl start node_exporter
 </pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgf14bc03" class="outline-2">
-<h2 id="orgf14bc03"><span class="section-number-2">8.</span> phpmyadmin</h2>
+<div id="outline-container-orgd94b197" class="outline-2">
+<h2 id="orgd94b197"><span class="section-number-2">8.</span> phpmyadmin</h2>
 <div class="outline-text-2" id="text-8">
 <ul class="org-ul">
-<li><a href="https://www.webteach.tw/?p=3347">[ Phpmyadmin ] – 透過 Phpmyadmin 一次管理多台遠端資料庫</a><br /></li>
-<li><a href="https://lucas-yang.vercel.app/post/local-phpmyadmin-connect-to-remote-mysql/">使用本地 phpMyAdmin 連線到遠端 MySQL 資料庫</a><br /></li>
-<li><a href="https://www.itread01.com/content/1542887646.html">配置phpmyadmin連線遠端 MySQL資料庫</a><br /></li>
+<li><a href="https://www.webteach.tw/?p=3347">[ Phpmyadmin ] – 透過 Phpmyadmin 一次管理多台遠端資料庫</a></li>
+<li><a href="https://lucas-yang.vercel.app/post/local-phpmyadmin-connect-to-remote-mysql/">使用本地 phpMyAdmin 連線到遠端 MySQL 資料庫</a></li>
+<li><a href="https://www.itread01.com/content/1542887646.html">配置phpmyadmin連線遠端 MySQL資料庫</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org11e6b4d" class="outline-2">
-<h2 id="org11e6b4d"><span class="section-number-2">9.</span> Nginx v.s. Moodle</h2>
+<div id="outline-container-org6a66e5a" class="outline-2">
+<h2 id="org6a66e5a"><span class="section-number-2">9.</span> Nginx v.s. Moodle</h2>
 <div class="outline-text-2" id="text-9">
 </div>
-<div id="outline-container-org6512a63" class="outline-3">
-<h3 id="org6512a63"><span class="section-number-3">9.1.</span> 移除套件</h3>
+<div id="outline-container-org56f998a" class="outline-3">
+<h3 id="org56f998a"><span class="section-number-3">9.1.</span> 移除套件</h3>
 <div class="outline-text-3" id="text-9-1">
 <div class="org-src-container">
-<pre class="src src-shell">sudo systemctl stop nginx
-sudo apt remove nginx php-fpm php-common php-mysql php-gmp php-curl php-intl php-mbstring php-soap php-gd php-xml php-cli  -y
-sudo apt purge nginx php-fpm php-common php-mysql php-gmp php-curl php-intl php-mbstring php-soap php-gd php-xml php-cli  -y
-sudo apt autoremove
-sudo apt autoclean
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> systemctl stop nginx
+<span style="color: #ECBE7B;">sudo</span> apt remove nginx php-fpm php-common php-mysql php-gmp php-curl php-intl php-mbstring php-soap php-gd php-xml php-cli  -y
+<span style="color: #ECBE7B;">sudo</span> apt purge nginx php-fpm php-common php-mysql php-gmp php-curl php-intl php-mbstring php-soap php-gd php-xml php-cli  -y
+<span style="color: #ECBE7B;">sudo</span> apt autoremove
+<span style="color: #ECBE7B;">sudo</span> apt autoclean
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org3625d91" class="outline-3">
-<h3 id="org3625d91"><span class="section-number-3">9.2.</span> 安裝套件</h3>
+<div id="outline-container-org26b38c2" class="outline-3">
+<h3 id="org26b38c2"><span class="section-number-3">9.2.</span> 安裝套件</h3>
 <div class="outline-text-3" id="text-9-2">
 <div class="org-src-container">
-<pre class="src src-shell">sudo apt install nginx php-fpm php-common php-mysql php-gmp php-curl php-intl php-mbstring php-soap php-gd php-xml php-cli php-zip unzip git curl -y
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> apt install nginx php-fpm php-common php-mysql php-gmp php-curl php-intl php-mbstring php-soap php-gd php-xml php-cli php-zip unzip <span style="color: #ECBE7B;">git</span> <span style="color: #ECBE7B;">curl</span> -y
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org17ab607" class="outline-3">
-<h3 id="org17ab607"><span class="section-number-3">9.3.</span> 編輯php.ini</h3>
+<div id="outline-container-orgc352fe0" class="outline-3">
+<h3 id="orgc352fe0"><span class="section-number-3">9.3.</span> 編輯php.ini</h3>
 <div class="outline-text-3" id="text-9-3">
 <div class="org-src-container">
-<pre class="src src-shell">sudo emacs /etc/php/8.0/fpm/php.ini
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> emacs /etc/php/8.0/fpm/php.ini
 </pre>
 </div>
 <p>
-更改內容<br />
+更改內容
 </p>
 <div class="org-src-container">
 <pre class="src src-shell"><span style="color: #dcaeea;">memory_limit</span> = 256M
@@ -1281,70 +1267,70 @@ date.timezone = <span style="color: #98be65;">"Asia/Taipei"</span>
 </pre>
 </div>
 <p>
-重新啟動php<br />
+重新啟動php
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">sudo systemctl restart php8.0-fpm
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> systemctl restart php8.0-fpm
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgbacea28" class="outline-3">
-<h3 id="orgbacea28"><span class="section-number-3">9.4.</span> 安裝Moodle</h3>
+<div id="outline-container-org4d07439" class="outline-3">
+<h3 id="org4d07439"><span class="section-number-3">9.4.</span> 安裝Moodle</h3>
 <div class="outline-text-3" id="text-9-4">
 </div>
-<div id="outline-container-org6ddd10b" class="outline-4">
-<h4 id="org6ddd10b"><span class="section-number-4">9.4.1.</span> Download</h4>
+<div id="outline-container-org5857f3d" class="outline-4">
+<h4 id="org5857f3d"><span class="section-number-4">9.4.1.</span> Download</h4>
 <div class="outline-text-4" id="text-9-4-1">
 <div class="org-src-container">
-<pre class="src src-shell"><span style="color: #c678dd;">cd</span> /opt
-sudo git clone git://git.moodle.org/moodle.git
-<span style="color: #c678dd;">cd</span> moodle
-sudo git branch -a
-sudo git branch --track MOODLE_39_STABLE origin/MOODLE_39_STABLE
-sudo git checkout MOODLE_39_STABLE
+<pre class="src src-shell"><span style="color: #ECBE7B;">cd</span> /opt
+<span style="color: #ECBE7B;">sudo</span> <span style="color: #ECBE7B;">git</span> clone git://git.moodle.org/moodle.git
+<span style="color: #ECBE7B;">cd</span> moodle
+<span style="color: #ECBE7B;">sudo</span> <span style="color: #ECBE7B;">git</span> branch -a
+<span style="color: #ECBE7B;">sudo</span> <span style="color: #ECBE7B;">git</span> branch --track MOODLE_39_STABLE origin/MOODLE_39_STABLE
+<span style="color: #ECBE7B;">sudo</span> <span style="color: #ECBE7B;">git</span> checkout MOODLE_39_STABLE
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-shell"><span style="color: #c678dd;">cd</span> /var/www/html
-git clone -b
+<pre class="src src-shell"><span style="color: #ECBE7B;">cd</span> /var/www/html
+<span style="color: #ECBE7B;">git</span> clone -b
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org264dbe3" class="outline-4">
-<h4 id="org264dbe3"><span class="section-number-4">9.4.2.</span> 建立目錄</h4>
+<div id="outline-container-orgbc1a38e" class="outline-4">
+<h4 id="orgbc1a38e"><span class="section-number-4">9.4.2.</span> 建立目錄</h4>
 <div class="outline-text-4" id="text-9-4-2">
 <div class="org-src-container">
-<pre class="src src-shell">sudo cp -R /opt/moodle /var/www/html/
-sudo chown -R www-data:www-data /var/www/html/moodle
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> <span style="color: #ECBE7B;">cp</span> -R /opt/moodle /var/www/html/
+<span style="color: #ECBE7B;">sudo</span> <span style="color: #ECBE7B;">chown</span> -R www-data:www-data /var/www/html/moodle
 
-sudo mkdir -p /var/www/html/moodledata
-sudo chmod -R <span style="color: #da8548; font-weight: bold;">755</span> /var/www/html/*
-sudo chown www-data:www-data /var/www/html/moodledata
+<span style="color: #ECBE7B;">sudo</span> <span style="color: #ECBE7B;">mkdir</span> -p /var/www/html/moodledata
+<span style="color: #ECBE7B;">sudo</span> <span style="color: #ECBE7B;">chmod</span> -R <span style="color: #da8548; font-weight: bold;">755</span> /var/www/html/*
+<span style="color: #ECBE7B;">sudo</span> <span style="color: #ECBE7B;">chown</span> www-data:www-data /var/www/html/moodledata
 
 </pre>
 </div>
 <p>
-GRANT ALL PRIVILEGES ON <b>.</b> TO &rsquo;moodle&rsquo;@&rsquo;%&rsquo; WITH GRANT OPTION;<br />
-FLUSH PRIVILEGES;<br />
-<a href="https://dotblogs.com.tw/supershowwei/2016/10/23/231423">https://dotblogs.com.tw/supershowwei/2016/10/23/231423</a><br />
+GRANT ALL PRIVILEGES ON <b>.</b> TO &rsquo;moodle&rsquo;@&rsquo;%&rsquo; WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+<a href="https://dotblogs.com.tw/supershowwei/2016/10/23/231423">https://dotblogs.com.tw/supershowwei/2016/10/23/231423</a>
 </p>
 </div>
 </div>
-<div id="outline-container-org85601fb" class="outline-4">
-<h4 id="org85601fb"><span class="section-number-4">9.4.3.</span> 設定Nginx for Moodle</h4>
+<div id="outline-container-org1d45984" class="outline-4">
+<h4 id="org1d45984"><span class="section-number-4">9.4.3.</span> 設定Nginx for Moodle</h4>
 <div class="outline-text-4" id="text-9-4-3">
 <div class="org-src-container">
-<pre class="src src-shell">sudo emacs /etc/nginx/conf.d/moodle.conf
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> emacs /etc/nginx/conf.d/moodle.conf
 </pre>
 </div>
 <p>
-內容<br />
+內容
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">server {
+<pre class="src src-shell">server <span style="color: #51afef;">{</span>
     listen <span style="color: #da8548; font-weight: bold;">80</span>;
     root /var/www/html/moodle;
     index  index.php index.html index.htm;
@@ -1352,60 +1338,60 @@ FLUSH PRIVILEGES;<br />
 
     client_max_body_size 100M;
     autoindex off;
-    location / {
+    location / <span style="color: #c678dd;">{</span>
         try_files $<span style="color: #dcaeea;">uri</span> $<span style="color: #dcaeea;">uri</span>/ =<span style="color: #da8548; font-weight: bold;">404</span>;
-    }
+    <span style="color: #c678dd;">}</span>
 
-    location /dataroot/ {
+    location /dataroot/ <span style="color: #c678dd;">{</span>
       internal;
       <span style="color: #c678dd;">alias</span> /var/www/html/moodledata/;
-    }
+    <span style="color: #c678dd;">}</span>
 
-    location ~ [^/].php(/|$) {
+    location ~ <span style="color: #c678dd;">[</span>^/<span style="color: #c678dd;">]</span>.php<span style="color: #c678dd;">(</span>/|$<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
         include snippets/fastcgi-php.conf;
         fastcgi_pass unix:/run/php/php7.4-fpm.sock;
         fastcgi_param SCRIPT_FILENAME $<span style="color: #dcaeea;">document_root</span>$<span style="color: #dcaeea;">fastcgi_script_name</span>;
         include fastcgi_params;
-    }
-}
+    <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">}</span>
 Save and close the file then verify the Nginx for any syntax error with the following command:
 <span style="color: #5B6268;">#</span><span style="color: #5B6268;">+begin_src shell -r :results output :exports both</span>
-sudo nginx -t
+<span style="color: #ECBE7B;">sudo</span> nginx -t
 </pre>
 </div>
 <p>
-#+end_src<br />
-restart<br />
+#+end_src
+restart
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">sudo systemctl restart nginx
+<pre class="src src-shell"><span style="color: #ECBE7B;">sudo</span> systemctl restart nginx
 </pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-org4c531bb" class="outline-2">
-<h2 id="org4c531bb"><span class="section-number-2">10.</span> Docker commands</h2>
+<div id="outline-container-org090fd91" class="outline-2">
+<h2 id="org090fd91"><span class="section-number-2">10.</span> Docker commands</h2>
 <div class="outline-text-2" id="text-10">
 </div>
-<div id="outline-container-orgfffcd2f" class="outline-3">
-<h3 id="orgfffcd2f"><span class="section-number-3">10.1.</span> List comtainer</h3>
+<div id="outline-container-orgfd5102a" class="outline-3">
+<h3 id="orgfd5102a"><span class="section-number-3">10.1.</span> List comtainer</h3>
 <div class="outline-text-3" id="text-10-1">
 <p>
-list running containers<br />
+list running containers
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">docker container ls
+<pre class="src src-shell">docker container <span style="color: #ECBE7B;">ls</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org31a10a3" class="outline-3">
-<h3 id="org31a10a3"><span class="section-number-3">10.2.</span> commit</h3>
+<div id="outline-container-orgcf47234" class="outline-3">
+<h3 id="orgcf47234"><span class="section-number-3">10.2.</span> commit</h3>
 <div class="outline-text-3" id="text-10-2">
 <p>
-create a new image <span class="underline">nwImageName</span> from that container<br />
+create a new image <span class="underline">nwImageName</span> from that container
 </p>
 <div class="org-src-container">
 <pre class="src src-shell">docker commit CONTAINER_ID newImageName
@@ -1413,11 +1399,11 @@ create a new image <span class="underline">nwImageName</span> from that containe
 </div>
 </div>
 </div>
-<div id="outline-container-orgee1a91c" class="outline-3">
-<h3 id="orgee1a91c"><span class="section-number-3">10.3.</span> run</h3>
+<div id="outline-container-org41122f3" class="outline-3">
+<h3 id="org41122f3"><span class="section-number-3">10.3.</span> run</h3>
 <div class="outline-text-3" id="text-10-3">
 <p>
-star a container from image<br />
+star a container from image
 </p>
 <div class="org-src-container">
 <pre class="src src-shell">docker run newImageName
@@ -1425,11 +1411,11 @@ star a container from image<br />
 </div>
 </div>
 </div>
-<div id="outline-container-orga81bd42" class="outline-3">
-<h3 id="orga81bd42"><span class="section-number-3">10.4.</span> duplicate</h3>
+<div id="outline-container-org13ba8fa" class="outline-3">
+<h3 id="org13ba8fa"><span class="section-number-3">10.4.</span> duplicate</h3>
 <div class="outline-text-3" id="text-10-4">
 <p>
-duplicate running container nginix:latest to container <span class="underline">newContainer</span> containing image <span class="underline">newImage</span><br />
+duplicate running container nginix:latest to container <span class="underline">newContainer</span> containing image <span class="underline">newImage</span>
 </p>
 <div class="org-src-container">
 <pre class="src src-shell">docker run --name newContainer --volumes-from newImage -d -p 3000:80 nginix:latest
@@ -1438,19 +1424,19 @@ duplicate running container nginix:latest to container <span class="underline">n
 </div>
 </div>
 </div>
-<div id="outline-container-orge3b69e9" class="outline-2">
-<h2 id="orge3b69e9"><span class="section-number-2">11.</span> References</h2>
+<div id="outline-container-org1df1438" class="outline-2">
+<h2 id="org1df1438"><span class="section-number-2">11.</span> References</h2>
 <div class="outline-text-2" id="text-11">
 <ul class="org-ul">
-<li><a href="https://stackoverflow.com/questions/49193307/how-to-duplicate-running-docker-container">How to duplicate running docker container</a><br /></li>
-<li><a href="https://www.youtube.com/watch?v=mPquwpxyUQU">Docker 10分钟快速入门</a><br /></li>
+<li><a href="https://stackoverflow.com/questions/49193307/how-to-duplicate-running-docker-container">How to duplicate running docker container</a></li>
+<li><a href="https://www.youtube.com/watch?v=mPquwpxyUQU">Docker 10分钟快速入门</a></li>
 </ul>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="author">Author: Yung-Chin Yen</p>
-<p class="date">Created: 2022-06-01 Wed 13:49</p>
+<p class="author">Author: Yung Chin, Yen</p>
+<p class="date">Created: 2022-12-08 Thu 16:08</p>
 </div>
 </body>
 </html>

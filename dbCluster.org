@@ -5,7 +5,10 @@
 #+TAGS: Intel, AI4Y
 #+OPTIONS: toc:2 ^:nil num:5
 #+PROPERTY: header-args :eval never-export
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../css/white.css" />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../css/muse.css" />
+#+begin_export html
+<a href="https://hits.sh/letranger.github.io/403/dbCluster.html/"><img align="right" alt="Hits" src="https://hits.sh/letranger.github.io/403/dbCluster.html.svg?style=plastic"/></a>
+#+end_export
 
 * Install Ubuntu on Mac
 1. Download Ubuntu ISO

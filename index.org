@@ -1,4 +1,11 @@
 #+title: 403教室雜事
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../css/muse.css" />
+#+OPTIONS: toc:0     ^:nil num:5
+#+PROPERTY: header-args :eval never-export
+#+begin_export html
+<a href="https://hits.sh/letranger.github.io/403/index.html/"><img align="right" alt="Hits" src="https://hits.sh/letranger.github.io/403/index.html.svg?style=plastic"/></a>
+#+end_export
+
 
 - [[file:dbCluster.org][DataBase Cluseter]]
 - [[file:jamf.org][Jamf]]
