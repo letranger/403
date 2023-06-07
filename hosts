@@ -21,6 +21,8 @@ fe80::1%lo0	localhost
 127.0.0.1	asia.wargaming.net
 127.0.0.1	facebook.com
 127.0.0.1	www.facebook.com
+192.168.16.200 bee.tnfsh.tn.edu.tw
+192.168.16.118 moodle.tnfsh.tn.edu.tw
 210.70.138.118 www.cat-mario.com
 210.70.138.118 camario.eu
 210.70.138.118 www.i-gamer.net

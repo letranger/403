@@ -10,6 +10,9 @@
 <a href="https://hits.sh/letranger.github.io/403/dbCluster.html/"><img align="right" alt="Hits" src="https://hits.sh/letranger.github.io/403/dbCluster.html.svg?style=plastic"/></a>
 #+end_export
 
+* Install MariaDB Galera Cluster on Docker
+- [[https://zhangge.net/5150.html][Docker镜像分享：一键部署MariaDB Galera Cluster集群]]
+
 * Install Ubuntu on Mac
 1. Download Ubuntu ISO
 2. Open Disk Utility, Create 1 Partition to Mac OS Extended (Journaled) for USB Stick.
@@ -29,6 +32,7 @@ diskutil unmountDisk /dev/diskN
 sudo dd if=/path/to/downloaded.img of=/dev/diskN bs=1m
       #+end_src
    4) Install
+
 * 安裝MariaDB Galera Cluster
 - [[https://cloudinfrastructureservices.co.uk/how-to-setup-mariadb-clustering-on-ubuntu-20-04/][How to Setup Mariadb Clustering on Ubuntu 20.04]]
 ** 安裝系統
@@ -175,25 +179,34 @@ INSERT INTO students VALUES (4,"顏小進","Letranger");
 #+begin_src shell -r -n :results output :exports both
 sudo update-rc.d mariadb defaults
 #+end_src
+
 * MariaDB Galera問題處理
 - [[https://www.cnblogs.com/nulige/articles/8470001.html][問題處理 ]]太好了
 - [[https://mariadb.com/kb/en/getting-started-with-mariadb-galera-cluster/][Getting Started with MariaDB Galera Cluster]]
 ** 重新啟動後,其他node無法join
+*** #1
 - 正常第一次启动集群，使用命令：galera_new_cluster
 - 整個集群關閉後，再重新啟動，則打開任一主機，輸入命令：
-  #+begin_src shell -r :results output :exports both
+#+begin_src shell -r :results output :exports both
 sudo emacs /var/lib/mysql/grastate.dat
-  #+end_src
-  將seqno改為1
-  #+begin_src shell -r  :results output :exports both
+#+end_src
+將seqno改為1
+#+begin_src shell -r  :results output :exports both
 #GALERA savedd state
 version:2.1
 uuid: 自己的cluster id
 seqno: -1
 safe_to_bootstrap:0
-  #+end_src
-  啟動 galera_new_cluster，這是master
-  其他node則用systemctl start mariadb啟動
+#+end_src
+啟動 galera_new_cluster，這是master
+其他node則用systemctl start mariadb啟動
+*** #2
+**** 移除ib_logfile、kill process accessing the file
+#+begin_src shell :results output :exports both
+sudo rm -rf /var/lib/mysql/ib_logfile*
+sudo fuser -k 3306/tcp
+#+end_src
+
 ** master無法galera_new_cluster
 狀況:
 #+begin_src shell -r :results output :exports both
@@ -212,6 +225,7 @@ uuid: 自己的cluster id
 seqno: -1
 safe_to_bootstrap:0
   #+end_src
+
 * 移除MariaDB
 #+begin_src shell -r  :results output :exports both
 sudo systemctl stop mariadb
@@ -667,9 +681,9 @@ sudo systemctl start node_exporter
 - 192.168.16.47: db07
 - 192.168.16.48: db08
 - 192.168.16.49: db09
-- 192.168.16.50: db10
-- 192.168.16.51: db11
-- 192.168.16.52: db12
+- 192.168.16.50: k8m / K8S Server /
+- 192.168.16.51: k8n1
+- 192.168.16.52: k8n2
 - 192.168.16.53: db13
 - 192.168.16.54: db14
 - 192.168.16.55: db15
