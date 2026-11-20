@@ -36,3 +36,36 @@ fe80::1%lo0	localhost
 210.70.138.118 tetr.io
 210.70.138.118 https://www.crazygames.com/
 210.70.138.118 https://crazygames.com/
+
+# LABCTL-BLOCK-C3POOL start （阻斷挖礦礦池，由 LabCtl 新增 2026-10-14）
+127.0.0.1	c3pool.org
+::1	c3pool.org
+127.0.0.1	www.c3pool.org
+::1	www.c3pool.org
+127.0.0.1	auto.c3pool.org
+::1	auto.c3pool.org
+127.0.0.1	mine.c3pool.org
+::1	mine.c3pool.org
+127.0.0.1	us.c3pool.org
+::1	us.c3pool.org
+127.0.0.1	na.c3pool.org
+::1	na.c3pool.org
+127.0.0.1	eu.c3pool.org
+::1	eu.c3pool.org
+127.0.0.1	de.c3pool.org
+::1	de.c3pool.org
+127.0.0.1	fr.c3pool.org
+::1	fr.c3pool.org
+127.0.0.1	sg.c3pool.org
+::1	sg.c3pool.org
+127.0.0.1	asia.c3pool.org
+::1	asia.c3pool.org
+127.0.0.1	hk.c3pool.org
+::1	hk.c3pool.org
+127.0.0.1	jp.c3pool.org
+::1	jp.c3pool.org
+127.0.0.1	xmr.c3pool.org
+::1	xmr.c3pool.org
+127.0.0.1	pool.c3pool.org
+::1	pool.c3pool.org
+# LABCTL-BLOCK-C3POOL end
